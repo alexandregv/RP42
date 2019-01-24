@@ -1,0 +1,13 @@
+name: RP42
+version: 0.1.0
+
+authors:
+  - aguiot-- <aguiot--@student.42.fr>
+
+targets:
+  RP42:
+    main: src/RP42.cr
+
+crystal: 0.27.0
+
+license: MIT
