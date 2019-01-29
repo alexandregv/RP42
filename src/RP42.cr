@@ -16,7 +16,9 @@ module RP42
   hostname = System.hostname.split(".", 2)
   hostname[0] = "At home" if hostname[1] != "42.fr"
 
-  coa = JSON.parse(http_client.get("/v2/users/#{username}/coalitions").body)[1]["name"].to_s
+  coas : JSON::Any = JSON.parse(http_client.get("/v2/users/#{username}/coalitions").body)
+  coa = coas[0]["name"].to_s
+  coa = coas[1]["name"].to_s if coas.size > 1
   lvl = JSON.parse(http_client.get("/v2/users/#{username}").body)["cursus_users"][0]["level"].to_s
   
   rich_client = RichCrystal::Client.new(531103976029028367_u64)
