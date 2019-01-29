@@ -2,19 +2,18 @@ require "oauth2"
 require "./client"
 
 module RP42
-	VERSION = "0.1.0"
+  VERSION = "0.1.0"
+  API_ID = "6006639307c5ecc1506feb96d9f833df325e07573040acecad429f75b824a72e"
+  API_SECRET = "<API-SECRET>"
+ 
+  hostname = System.hostname.split(".", 2)
+  exit if (hostname.size < 2 || hostname[1]) != "42.fr"
+  username = `whoami`.chomp("\n")
 
-  api_id = "6006639307c5ecc1506feb96d9f833df325e07573040acecad429f75b824a72e"
-  api_secret = "<API-SECRET>"
-
-  oauth2_client = OAuth2::Client.new("api.intra.42.fr", api_id, api_secret, authorize_uri: "/oauth/authorize", token_uri: "/oauth/token")
+  oauth2_client = OAuth2::Client.new("api.intra.42.fr", API_ID, API_SECRET, authorize_uri: "/oauth/authorize", token_uri: "/oauth/token")
   access_token = oauth2_client.get_access_token_using_client_credentials
   http_client = HTTP::Client.new("api.intra.42.fr", tls: OpenSSL::SSL::Context::Client.insecure)
   access_token.authenticate(http_client)
-
-  username = `whoami`.chomp("\n")
-  hostname = System.hostname.split(".", 2)
-  hostname[0] = "At home" if hostname[1] != "42.fr"
 
   coas : JSON::Any = JSON.parse(http_client.get("/v2/users/#{username}/coalitions").body)
   coa = coas[0]["name"].to_s
