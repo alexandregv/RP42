@@ -1,6 +1,7 @@
 # RP42
 
-A Discord Rich Presence integration for [@42School](https://github.com/42School).
+A Discord Rich Presence integration for [@42School](https://github.com/42School).  
+![Screenshot](https://raw.githubusercontent.com/triinoxys/RP42/master/screenshot.png)
 
 ## Installation
 
