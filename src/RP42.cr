@@ -2,7 +2,7 @@ require "oauth2"
 require "./client"
 
 module RP42
-  VERSION = "0.1.0"
+  VERSION = "1.2.0"
   API_ID = "6006639307c5ecc1506feb96d9f833df325e07573040acecad429f75b824a72e"
   API_SECRET = "<API-SECRET>"
  
