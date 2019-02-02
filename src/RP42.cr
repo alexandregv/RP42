@@ -17,17 +17,21 @@ module RP42
 
   coa = JSON.parse(http_client.get("/v2/users/#{username}/coalitions").body).as_a.last["name"].to_s
   lvl = JSON.parse(http_client.get("/v2/users/#{username}").body)["cursus_users"][0]["level"].to_s
+  log = JSON.parse(http_client.get("/v2/users/#{username}/locations").body)[0]
   
   rich_client = RichCrystal::Client.new(531103976029028367_u64)
-    rich_client.login
-    rich_client.activity({
-    	"details" => "Level: #{lvl}",
-    	"state" => "Location: #{hostname[0]}",
+  rich_client.login
+  rich_client.activity({
+    "details" => "Level: #{lvl}",
+    "state" => "Location: #{hostname[0]}",
     "assets" => {
       "large_image" => "logo",
       "large_text" => username,
       "small_image" => coa.tr(" ", "-").downcase,
       "small_text" => coa,
+    },
+    "timestamps" => {
+      "start" => Time.parse_iso8601(log["begin_at"].to_s).to_unix
     }
   })
 
