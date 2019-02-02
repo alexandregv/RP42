@@ -15,9 +15,7 @@ module RP42
   http_client = HTTP::Client.new("api.intra.42.fr", tls: OpenSSL::SSL::Context::Client.insecure)
   access_token.authenticate(http_client)
 
-  coas : JSON::Any = JSON.parse(http_client.get("/v2/users/#{username}/coalitions").body)
-  coa = coas[0]["name"].to_s
-  coa = coas[1]["name"].to_s if coas.size > 1
+  coa = JSON.parse(http_client.get("/v2/users/#{username}/coalitions").body).as_a.last["name"].to_s
   lvl = JSON.parse(http_client.get("/v2/users/#{username}").body)["cursus_users"][0]["level"].to_s
   
   rich_client = RichCrystal::Client.new(531103976029028367_u64)
