@@ -22,7 +22,7 @@ module RP42
   rich_client = RichCrystal::Client.new(531103976029028367_u64)
   rich_client.login
   rich_client.activity({
-    "details" => "Level: #{lvl}",
+    "details" => "Level: #{lvl.to_f.round(2).to_s}",
     "state" => "Location: #{hostname[0]}",
     "assets" => {
       "large_image" => "logo",
