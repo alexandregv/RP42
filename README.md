@@ -26,3 +26,7 @@ Just execute the file (in background): `./RP42 &`
 ## Contributors
 
 - [triinoxys/aguiot--](https://github.com/triinoxys) - creator and maintainer
+
+## Credits
+
+- [Anana](https://github.com/ananagame) for https://github.com/alexandregv/RP42/blob/master/src/ipc.cr
