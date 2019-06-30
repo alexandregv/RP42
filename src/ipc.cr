@@ -5,7 +5,7 @@ module RichCrystal
     # Enumerate the differents opcodes
     enum Opcode : Int32
       Handshake = 0
-      Frame = 1
+      Frame     = 1
     end
 
     # Create the UNIXSocket with ipc_path and socket name 'discord-ipc-0'
@@ -21,7 +21,7 @@ module RichCrystal
 
       # Iterate environment variables names
       variables.each do |variable_name|
-      # Handling a key error if the environment variable does not exists
+        # Handling a key error if the environment variable does not exists
         begin
           variable = ENV[variable_name]
           return variable

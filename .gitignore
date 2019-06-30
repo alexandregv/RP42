@@ -4,3 +4,5 @@
 /.shards/
 *.dwarf
 RP42
+secret.cr
+tool.sh
