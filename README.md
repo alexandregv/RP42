@@ -5,7 +5,10 @@ A Discord Rich Presence integration for [@42School](https://github.com/42School)
 
 ## Installation
 
-Just download a prebuilt binary from the [releases](https://github.com/triinoxys/RP42/releases) page, or build it yourself.  
+**New**: you can now use it directly at school without downloading anything!  
+Just execute `/sgoinfre/goinfre/Perso/aguiot--/public/RP42 &`
+
+You can also download a prebuilt binary from the [releases](https://github.com/triinoxys/RP42/releases) page, or build it yourself.  
 To build it:
 1. Clone the repo: `git clone https://github.com/triinoxys/RP42.git`
 2. Install dependencies: `shards install` (no deps right now)  
@@ -13,7 +16,8 @@ To build it:
 
 ## Usage
 
-Just execute the file (in background): `./RP42 &`
+Just execute the file (in background): `/sgoinfre/goinfre/Perso/aguiot--/public/RP42 &`  
+(or `./RP42 &` if you downloaded/built it)
 
 ## Contributing
 
