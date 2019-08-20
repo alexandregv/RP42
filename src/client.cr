@@ -24,7 +24,7 @@ module RichCrystal
     # Retrieves a Hash of Strings for sending the frame payload to the IPC
     # with discord-rich-presence parameters (see here https://github.com/discordapp/discord-rpc/blob/master/documentation/hard-mode.md#new-rpc-command)
     # and return the JSON response
-    def activity(activity)
+	def activity(activity : Hash(String, String | Hash(String, String | Int)))
       # Generate the payload in JSON
       payload = {
         "cmd"  => "SET_ACTIVITY",
