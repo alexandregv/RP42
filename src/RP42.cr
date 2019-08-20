@@ -40,23 +40,44 @@ module RP42
   })
 
   api = API42.new
-  coa = JSON.parse(api.get("/v2/users/#{username}/coalitions").body).as_a.last["name"].to_s
+  coa = JSON.parse(api.get("/v2/users/#{username}/coalitions").body).as_a
+  if coa.empty?
+    coa = nil
+  else
+    coa = coa.last["name"].to_s
+  end
   lvl = JSON.parse(api.get("/v2/users/#{username}").body)["cursus_users"][0]["level"].to_s
-  log = JSON.parse(api.get("/v2/users/#{username}/locations").body)[0]
+  log = JSON.parse(api.get("/v2/users/#{username}/locations").body)[0]?
+  log = {"begin_at" => Time.local.to_rfc3339} if log.nil?
 
-  rich_client.activity({
-    "details" => "Level: #{lvl.to_f.round(2).to_s}",
-    "state"   => "Location: #{hostname[0]}",
-    "assets"  => {
-      "large_image" => "logo",
-      "large_text"  => username,
-      "small_image" => coa.tr(" ", "-").downcase,
-      "small_text"  => coa,
-    },
-    "timestamps" => {
-      "start" => Time.parse_iso8601(log["begin_at"].to_s).to_unix,
-    },
-  })
+  if coa.nil?
+    activity = {
+      "details" => "Level: #{lvl.to_f.round(2).to_s}",
+      "state"   => "Location: #{hostname[0]}",
+      "assets"  => {
+        "large_image" => "logo",
+        "large_text"  => username,
+      },
+      "timestamps" => {
+        "start" => Time.parse_iso8601(log["begin_at"].to_s).to_unix,
+      },
+    }
+  else
+    activity = {
+      "details" => "Level: #{lvl.to_f.round(2).to_s}",
+      "state"   => "Location: #{hostname[0]}",
+      "assets"  => {
+        "large_image" => "logo",
+        "large_text"  => username,
+        "small_image" => coa.tr(" ", "-").downcase,
+        "small_text"  => coa,
+      },
+      "timestamps" => {
+        "start" => Time.parse_iso8601(log["begin_at"].to_s).to_unix,
+      },
+    }
+  end
+  rich_client.activity(activity)
 
   sleep
 end
