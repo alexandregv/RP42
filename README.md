@@ -1,24 +1,24 @@
 # RP42
 
+# REWORK IN PROGRESS: REWRITE IN GOLANG + NEW FEATURES
+
 A Discord Rich Presence integration for [@42School](https://github.com/42School).  
 ![Screenshot](https://raw.githubusercontent.com/triinoxys/RP42/master/screenshot.png)
 
-## Installation
+## Usage
 
-**New**: you can now use it directly at school without downloading anything!  
-Just execute `/sgoinfre/goinfre/Perso/aguiot--/public/RP42 &`  
-Or make an alias: `alias RP42="/sgoinfre/goinfre/Perso/aguiot--/public/RP42 &"`  
+If you are logged at 42Paris, you don't have to download anything.  
+Just execute: `open /sgoinfre/goinfre/Perso/aguiot--/public/RP42` or launch it from the Finder.  
+If you are not logged at 42Paris, follow Installation instructions and then launch the file the same way.  
+If you are not on macOS, juste execute the file (in background): `./RP42 &`
+
+## Installation
 
 You can also download a prebuilt binary from the [releases](https://github.com/triinoxys/RP42/releases) page, or build it yourself.  
 To build it:
 1. Clone the repo: `git clone https://github.com/triinoxys/RP42.git`  
-2. Install dependencies: `shards install` (no deps right now)  
-3. Compile: `crystal build src/RP42.cr --release --no-debug`  
-
-## Usage
-
-Just execute the file (in background): `/sgoinfre/goinfre/Perso/aguiot--/public/RP42 &`  
-(or `./RP42 &` if you downloaded/built it)  
+2. Install dependencies: `go get`  
+3. Compile: `go build main.go`  
 
 ## Contributing
 
@@ -31,4 +31,3 @@ Just execute the file (in background): `/sgoinfre/goinfre/Perso/aguiot--/public/
 ## Contributors
 
 - [triinoxys/aguiot--](https://github.com/triinoxys) - creator and maintainer  
-- [Anana](https://github.com/ananagame) - contributor (RichCrystal)  
