@@ -5,10 +5,10 @@ import (
 	"github.com/ananagame/rich-go/client"
 	"github.com/getlantern/systray"
 	"sync"
-	//"time"
 	"strings"
 	"github.com/alexandregv/RP42/icon"
 )
+
 
 func main() {
 	systray.Run(onReady, onExit)
