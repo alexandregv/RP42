@@ -5,6 +5,7 @@ import (
 	"github.com/alexandregv/RP42/icon"
 	"github.com/ananagame/rich-go/client"
 	"github.com/getlantern/systray"
+	"github.com/gobs/pretty"
 	"strings"
 	"sync"
 )
@@ -54,6 +55,11 @@ func onReady() {
 
 	//user := GetUser("aguiot--")
 	//fmt.Println(user.Login)
+	
+	loc := GetUserLastLocation("aguiot--")
+	//fmt.Println(loc)
+	//fmt.Printf("%#v\n", loc)
+	pretty.PrettyPrint(loc)
 
 	fmt.Println("Sleeping... Press CTRL+C to stop.")
 	m := sync.Mutex{}

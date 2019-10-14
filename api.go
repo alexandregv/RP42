@@ -35,3 +35,11 @@ func GetUser(login string) *User {
 	json.Unmarshal(resp, &user)
 	return &user
 }
+
+func GetUserLastLocation(login string) *Location {
+	resp := fetch(fmt.Sprint("/v2/users/", login, "/locations"/*?filter[active]=true"*/))
+
+	locations := []Location{}
+	json.Unmarshal(resp, &locations)
+	return &locs[0]
+}
