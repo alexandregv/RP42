@@ -33,13 +33,28 @@ func GetUser(login string) *User {
 
 	user := User{}
 	json.Unmarshal(resp, &user)
+
 	return &user
 }
 
 func GetUserLastLocation(login string) *Location {
-	resp := fetch(fmt.Sprint("/v2/users/", login, "/locations"/*?filter[active]=true"*/))
+	resp := fetch(fmt.Sprint("/v2/users/", login, "/locations" /*?filter[active]=true"*/))
 
 	locations := []Location{}
 	json.Unmarshal(resp, &locations)
-	return &locs[0]
+
+	return &locations[0]
+}
+
+func GetUserCoalition(login string) *Coalition {
+	resp := fetch(fmt.Sprint("/v2/users/", login, "/coalitions"))
+
+	coalitions := []Coalition{}
+	json.Unmarshal(resp, &coalitions)
+
+	if len(coalitions) > 0 {
+		return &coalitions[0]
+	} else {
+		return nil
+	}
 }

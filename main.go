@@ -55,11 +55,12 @@ func onReady() {
 
 	//user := GetUser("aguiot--")
 	//fmt.Println(user.Login)
-	
-	loc := GetUserLastLocation("aguiot--")
-	//fmt.Println(loc)
-	//fmt.Printf("%#v\n", loc)
-	pretty.PrettyPrint(loc)
+
+	//loc := GetUserLastLocation("aguiot--")
+	//pretty.PrettyPrint(loc)
+
+	coa := GetUserCoalition("pamoreno")
+	pretty.PrettyPrint(coa)
 
 	fmt.Println("Sleeping... Press CTRL+C to stop.")
 	m := sync.Mutex{}
