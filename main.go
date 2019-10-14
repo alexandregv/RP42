@@ -5,6 +5,7 @@ import (
 	"github.com/alexandregv/RP42/icon"
 	"github.com/ananagame/rich-go/client"
 	"github.com/getlantern/systray"
+	"os/user"
 	"strings"
 	"sync"
 	"time"
@@ -54,7 +55,11 @@ func sendActivity(login string, level string, coalition string, location string,
 func onReady() {
 	setupTray()
 
-	var login = "aguiot--"
+	osUser, err := user.Current()
+	if err != nil {
+		panic(err)
+	}
+	login := osUser.Username
 
 	user := GetUser(login)
 	loc := GetUserLastLocation(login)
