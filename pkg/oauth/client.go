@@ -1,4 +1,4 @@
-package main
+package oauth
 
 import (
 	"fmt"
@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 )
+
+const URL = "https://api.intra.42.fr"
 
 type Client struct {
 	*http.Client

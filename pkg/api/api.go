@@ -1,17 +1,16 @@
-package main
+package api
 
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/alexandregv/RP42/pkg/oauth"
 	"io/ioutil"
 )
 
-const (
-	URL = "https://api.intra.42.fr"
-)
+const URL = "https://api.intra.42.fr"
 
 func fetch(endpoint string) []byte {
-	client := GetClient()
+	client := oauth.GetClient()
 
 	resp, err := client.Get(fmt.Sprint(URL, endpoint))
 	if err != nil {
