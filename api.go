@@ -27,3 +27,11 @@ func fetch(endpoint string) []byte {
 		panic(fmt.Sprintf("The API responded with a bad status code (%d): %s", resp.StatusCode, string(body)))
 	}
 }
+
+func GetUser(login string) *User {
+	resp := fetch(fmt.Sprint("/v2/users/", login))
+
+	user := User{}
+	json.Unmarshal(resp, &user)
+	return &user
+}

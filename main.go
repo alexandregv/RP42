@@ -52,8 +52,8 @@ func onReady() {
 
 	sendActivity("aguiot--", "6.75", "The Alliance", "In train", "An RFC822 string")
 
-	user := GetUser("aguiot--")
-	fmt.Println(user.Login)
+	//user := GetUser("aguiot--")
+	//fmt.Println(user.Login)
 
 	fmt.Println("Sleeping... Press CTRL+C to stop.")
 	m := sync.Mutex{}
