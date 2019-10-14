@@ -1,8 +1,7 @@
 /docs/
 /lib/
 /bin/
-/.shards/
+/vendor/
 *.dwarf
 RP42
-secret.cr
-tool.sh
+main
