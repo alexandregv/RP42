@@ -7,13 +7,13 @@ import (
 )
 
 const (
-	url = "https://api.intra.42.fr"
+	URL = "https://api.intra.42.fr"
 )
 
 func fetch(endpoint string) []byte {
 	client := GetClient()
 
-	resp, err := client.Get(fmt.Sprint(url, endpoint))
+	resp, err := client.Get(fmt.Sprint(URL, endpoint))
 	if err != nil {
 		panic(err)
 	}
@@ -53,7 +53,7 @@ func GetUserCoalition(login string) *Coalition {
 	json.Unmarshal(resp, &coalitions)
 
 	if len(coalitions) > 0 {
-		return &coalitions[0]
+		return &coalitions[len(coalitions)-1]
 	} else {
 		return nil
 	}

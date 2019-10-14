@@ -5,10 +5,12 @@ import (
 	"github.com/alexandregv/RP42/icon"
 	"github.com/ananagame/rich-go/client"
 	"github.com/getlantern/systray"
-	"github.com/gobs/pretty"
 	"strings"
 	"sync"
+	"time"
 )
+
+const DISCORD_APP_ID = "531103976029028367"
 
 func main() {
 	systray.Run(onReady, onExit)
@@ -26,10 +28,8 @@ func setupTray() {
 	}()
 }
 
-func sendActivity(login string, level string, coalition string, location string, logstart string) {
-	//start, _ := time.Parse(time.RFC822, "08 Sep 19 16:00 UTC")
-
-	err := client.Login("531103976029028367")
+func sendActivity(login string, level string, coalition string, location string, begin int64) {
+	err := client.Login(DISCORD_APP_ID)
 	if err != nil {
 		panic(err)
 	}
@@ -41,6 +41,9 @@ func sendActivity(login string, level string, coalition string, location string,
 		LargeText:  login,
 		SmallImage: strings.ToLower(strings.Replace(coalition, " ", "-", -1)),
 		SmallText:  coalition,
+		Timestamps: &client.Timestamps{
+			Start: begin,
+		},
 	})
 
 	if err != nil {
@@ -51,16 +54,17 @@ func sendActivity(login string, level string, coalition string, location string,
 func onReady() {
 	setupTray()
 
-	sendActivity("aguiot--", "6.75", "The Alliance", "In train", "An RFC822 string")
+	var login = "aguiot--"
 
-	//user := GetUser("aguiot--")
-	//fmt.Println(user.Login)
+	user := GetUser(login)
+	loc := GetUserLastLocation(login)
+	time.Sleep(1 * time.Second)
+	coa := GetUserCoalition(login)
 
-	//loc := GetUserLastLocation("aguiot--")
-	//pretty.PrettyPrint(loc)
+	lvl := fmt.Sprintf("%.2f", user.CursusUsers[0].Level)
+	begin := loc.BeginAt.Unix()
 
-	coa := GetUserCoalition("pamoreno")
-	pretty.PrettyPrint(coa)
+	sendActivity(login, lvl, coa.Name, loc.Host, begin)
 
 	fmt.Println("Sleeping... Press CTRL+C to stop.")
 	m := sync.Mutex{}

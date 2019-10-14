@@ -16,7 +16,7 @@ func GetClient() *Client {
 	client := newClient(
 		os.Getenv("RP42_CLIENT_ID"),
 		os.Getenv("RP42_CLIENT_SECRET"),
-		fmt.Sprint(url, "/oauth/token"),
+		fmt.Sprint(URL, "/oauth/token"),
 	)
 	return client
 }
