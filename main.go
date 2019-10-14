@@ -2,19 +2,18 @@ package main
 
 import (
 	"fmt"
+	"github.com/alexandregv/RP42/icon"
 	"github.com/ananagame/rich-go/client"
 	"github.com/getlantern/systray"
-	"sync"
 	"strings"
-	"github.com/alexandregv/RP42/icon"
+	"sync"
 )
-
 
 func main() {
 	systray.Run(onReady, onExit)
 }
 
-func tray() {
+func setupTray() {
 	systray.SetIcon(icon.Data)
 	systray.SetTitle("RP42")
 
@@ -26,7 +25,7 @@ func tray() {
 	}()
 }
 
-func activity(login string, level string, coalition string, location string, logstart string) {
+func sendActivity(login string, level string, coalition string, location string, logstart string) {
 	//start, _ := time.Parse(time.RFC822, "08 Sep 19 16:00 UTC")
 
 	err := client.Login("531103976029028367")
@@ -34,7 +33,7 @@ func activity(login string, level string, coalition string, location string, log
 		panic(err)
 	}
 
-	err = client.SetActivity(client.Activity {
+	err = client.SetActivity(client.Activity{
 		Details:    fmt.Sprintf("Level: %s", level),
 		State:      fmt.Sprintf("Location: %s", location),
 		LargeImage: "logo",
@@ -49,11 +48,14 @@ func activity(login string, level string, coalition string, location string, log
 }
 
 func onReady() {
-	tray()
-	activity("aguiot--", "6.75", "The Alliance", "In train", "An RFC822 string")
+	setupTray()
+
+	sendActivity("aguiot--", "6.75", "The Alliance", "In train", "An RFC822 string")
+
+	user := GetUser("aguiot--")
+	fmt.Println(user.Login)
 
 	fmt.Println("Sleeping... Press CTRL+C to stop.")
-
 	m := sync.Mutex{}
 	m.Lock()
 	m.Lock()
