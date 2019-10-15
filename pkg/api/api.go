@@ -9,6 +9,7 @@ import (
 
 const URL = "https://api.intra.42.fr"
 
+// fetch() queries an endpoint of the API.
 func fetch(endpoint string) []byte {
 	client := oauth.GetClient()
 
@@ -27,6 +28,7 @@ func fetch(endpoint string) []byte {
 	}
 }
 
+// GetUser() returns an User, based on his login.
 func GetUser(login string) *User {
 	resp := fetch(fmt.Sprint("/v2/users/", login))
 
@@ -36,6 +38,7 @@ func GetUser(login string) *User {
 	return &user
 }
 
+// GetUserLastLocation returns the last Location of an user.
 func GetUserLastLocation(login string) *Location {
 	resp := fetch(fmt.Sprint("/v2/users/", login, "/locations" /*?filter[active]=true"*/))
 
@@ -45,6 +48,7 @@ func GetUserLastLocation(login string) *Location {
 	return &locations[0]
 }
 
+// GetUserCoalition() returns the Coalition of an user.
 func GetUserCoalition(login string) *Coalition {
 	resp := fetch(fmt.Sprint("/v2/users/", login, "/coalitions"))
 

@@ -2,6 +2,8 @@ package api
 
 //import "time"
 
+// User represents an user from the 42's API.
+// Truncated to keep only useful entries.
 type User struct {
 	/*
 		ID              int           `json:"id"`

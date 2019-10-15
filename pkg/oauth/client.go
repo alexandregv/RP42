@@ -12,10 +12,14 @@ var (
 	API_CLIENT_SECRET string
 )
 
+
+// Client holds an *http.Client
 type Client struct {
 	*http.Client
 }
 
+// GetClient() returns an instance of a Client.
+// It will be a Singleton, one day.
 func GetClient() *Client {
 	client := newClient(
 		API_CLIENT_ID,
@@ -25,6 +29,7 @@ func GetClient() *Client {
 	return client
 }
 
+// newClient() creates a new Client using client credentials OAuth flow.
 func newClient(client_id string, client_secret string, token_url string) *Client {
 	config := &clientcredentials.Config{
 		ClientID:     client_id,
