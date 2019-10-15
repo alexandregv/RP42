@@ -1,7 +1,7 @@
 NAME		= RP42
 
 # Compiler & Preprocessor flags
-LDFLAGS		+= "-X github.com/alexandregv/RP42/pkg/oauth.API_CLIENT_ID=${RP42_CLIENT_ID} -X github.com/alexandregv/RP42/pkg/oauth.API_CLIENT_SECRET=${RP42_CLIENT_SECRET}"
+LDFLAGS		+= -X github.com/alexandregv/RP42/pkg/oauth.API_CLIENT_ID=${RP42_CLIENT_ID} -X github.com/alexandregv/RP42/pkg/oauth.API_CLIENT_SECRET=${RP42_CLIENT_SECRET}
 MAKEFLAGS	+= --no-print-directory
 
 # Colors
@@ -17,7 +17,7 @@ ERASE		= $(ECHO) $(ES_ERASE)
 HIDE_STD	= > /dev/null
 HIDE_ERR	= 2> /dev/null || true
 
-# Multi platforms 
+# Cross platforms
 ECHO 		= echo
 ifeq ($(shell uname),Linux)
 	ECHO	+= -e
@@ -25,14 +25,28 @@ endif
 
 all: $(NAME)
 
-$(NAME):
-	@$(ECHO) "$(NAME)\t[$(C_PENDING)⏳ $(C_RESET)]"
-	@go build -o build/$(NAME) -ldflags $(LDFLAGS) cmd/$(NAME)/main.go
-	@cp -R assets/macOS/$(NAME).app/ build/
+$(NAME): linux windows macos
+	@$(ECHO) "$(C_SUCCESS)Compilation successful! 👌 (./build/)$(C_RESET)"
+
+linux:
+	@$(ECHO) "Linux\t[$(C_PENDING)⏳ $(C_RESET)]"
+	@GOOS=linux GOARCH=amd64 go build -o build/linux/$(NAME) -ldflags "$(LDFLAGS)" cmd/$(NAME)/main.go
+	@$(ERASE)
+	@$(ECHO) "Linux\t[$(C_SUCCESS)✅ $(C_RESET)]"
+
+windows:
+	@$(ECHO) "Windows\t[$(C_PENDING)⏳ $(C_RESET)]"
+	@GOOS=windows GOARCH=amd64 go build -o build/windows/$(NAME).exe -ldflags "-H=windowsgui $(LDFLAGS)" cmd/$(NAME)/main.go
+	@$(ERASE)
+	@$(ECHO) "Windows\t[$(C_SUCCESS)✅ $(C_RESET)]"
+
+macos:
+	@$(ECHO) "MacOS\t[$(C_PENDING)⏳ $(C_RESET)]"
+	@env GOOS=darwin GOARCH=amd64 go build -o build/macOS/$(NAME) -ldflags "$(LDFLAGS)" cmd/$(NAME)/main.go
+	@cp -R assets/macOS/$(NAME).app/ build/macOS/
 	@cp build/$(NAME) build/$(NAME).app/Contents/MacOS/RP42
 	@$(ERASE)
-	@$(ECHO) "$(NAME)\t[$(C_SUCCESS)✅ $(C_RESET)]"
-	@$(ECHO) "$(C_SUCCESS)Compilation successful! 👌 (./build/)$(C_RESET)"
+	@$(ECHO) "MacOS\t[$(C_SUCCESS)✅ $(C_RESET)]"
 
 clean:
 	@#$(RM) -r build/ $(HIDE_ERR)
