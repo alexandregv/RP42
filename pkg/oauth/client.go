@@ -6,12 +6,13 @@ import (
 	"golang.org/x/oauth2/clientcredentials"
 	"net/http"
 )
+
 const API_URL = "https://api.intra.42.fr"
+
 var (
-	API_CLIENT_ID string
+	API_CLIENT_ID     string
 	API_CLIENT_SECRET string
 )
-
 
 // Client holds an *http.Client
 type Client struct {

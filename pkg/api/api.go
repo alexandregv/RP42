@@ -40,12 +40,16 @@ func GetUser(login string) *User {
 
 // GetUserLastLocation returns the last Location of an user.
 func GetUserLastLocation(login string) *Location {
-	resp := fetch(fmt.Sprint("/v2/users/", login, "/locations" /*?filter[active]=true"*/))
+	resp := fetch(fmt.Sprint("/v2/users/", login, "/locations?filter[active]=true"))
 
 	locations := []Location{}
 	json.Unmarshal(resp, &locations)
 
-	return &locations[0]
+	if len(locations) > 0 {
+		return &locations[len(locations)-1]
+	} else {
+		return nil
+	}
 }
 
 // GetUserCoalition() returns the Coalition of an user.

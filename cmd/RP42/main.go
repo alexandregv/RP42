@@ -7,7 +7,6 @@ import (
 	discord "github.com/ananagame/rich-go/client"
 	"github.com/getlantern/systray"
 	"os/user"
-	"strings"
 	"sync"
 	"time"
 )
@@ -22,7 +21,7 @@ func setupTray() {
 	systray.SetIcon(icon.Data)
 	systray.SetTitle("RP42")
 
-	mQuit := systray.AddMenuItem("Quitter", "Quitter")
+	mQuit := systray.AddMenuItem("Quit", "Quit")
 
 	go func() {
 		<-mQuit.ClickedCh
@@ -30,27 +29,63 @@ func setupTray() {
 	}()
 }
 
-func sendActivity(login string, level string, coalition string, location string, begin int64) {
+func sendActivity(details string, state string, largeText string, smallImage string, smallText string, startTimestamp int64) {
 	err := discord.Login(DISCORD_APP_ID)
 	if err != nil {
 		panic(err)
 	}
 
 	err = discord.SetActivity(discord.Activity{
-		Details:    fmt.Sprintf("Level: %s", level),
-		State:      fmt.Sprintf("Location: %s", location),
+		Details:    details,
+		State:      state,
 		LargeImage: "logo",
-		LargeText:  login,
-		SmallImage: strings.ToLower(strings.Replace(coalition, " ", "-", -1)),
-		SmallText:  coalition,
+		LargeText:  largeText,
+		SmallImage: smallImage,
+		SmallText:  smallText,
 		Timestamps: &discord.Timestamps{
-			Start: begin,
+			Start: startTimestamp,
 		},
 	})
 
 	if err != nil {
 		panic(err)
 	}
+}
+
+func setPresence(user *api.User, location *api.Location, coalition *api.Coalition) {
+	lvl := fmt.Sprintf("%.2f", user.CursusUsers[0].Level)
+
+	var (
+		start   int64
+		loc     string
+		coaName string
+		coaSlug string
+	)
+
+	if location == nil {
+		loc = "¯\\_(ツ)_/¯"
+		start = time.Now().Unix()
+	} else {
+		loc = location.Host
+		start = location.BeginAt.Unix()
+	}
+
+	if coalition == nil {
+		coaName = "None"
+		coaSlug = "none"
+	} else {
+		coaName = coalition.Name
+		coaSlug = coalition.Slug
+	}
+
+	sendActivity(
+		fmt.Sprint("Level: ", lvl),
+		fmt.Sprint("Location: ", loc),
+		user.Login,
+		coaSlug,
+		coaName,
+		start,
+	)
 }
 
 func onReady() {
@@ -67,10 +102,7 @@ func onReady() {
 	time.Sleep(1 * time.Second)
 	coa := api.GetUserCoalition(login)
 
-	lvl := fmt.Sprintf("%.2f", user.CursusUsers[0].Level)
-	begin := loc.BeginAt.Unix()
-
-	sendActivity(login, lvl, coa.Name, loc.Host, begin)
+	setPresence(user, loc, coa)
 
 	fmt.Println("Sleeping... Press CTRL+C to stop.")
 	m := sync.Mutex{}
