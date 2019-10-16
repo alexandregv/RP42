@@ -11,7 +11,7 @@ Otherwise, download RP42 from the [releases](https://github.com/alexandregv/RP42
 Just execute `open /sgoinfre/goinfre/Perso/aguiot--/public/RP42.app` or launch it from the Finder.  
 
 ## Usage in other campuses
-Double-click the file, or use these commands:  
+Follow Installation instructions and then double-click the file, or use these commands:  
 Linux: `./RP42 &`  
 Windows: `RP42.exe`  
 MacOS: `open RP42.app`  
