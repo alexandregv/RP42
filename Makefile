@@ -49,6 +49,10 @@ macos:
 	@$(ERASE)
 	@$(ECHO) "MacOS\t[$(C_SUCCESS)✅ $(C_RESET)]"
 
+deploy:
+	@cp build/macOS/RP42 /sgoinfre/goinfre/Perso/aguiot--/public/RP42
+	@cp -R build/macOS/RP42.app /sgoinfre/goinfre/Perso/aguiot--/public
+
 clean:
 	@#$(RM) -r build/ $(HIDE_ERR)
 
