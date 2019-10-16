@@ -4,17 +4,20 @@ A Discord Rich Presence integration for [@42School](https://github.com/42School)
 ![Screenshot](https://raw.githubusercontent.com/alexandregv/RP42/master/screenshot.png)
 
 ## Installation
-If you are logged at 42Paris, you don't have to download or install anything. Just skip to the Usage instructions.  
+If you are logged at 42Paris or 42Lyon, you don't have to download or install anything. Just skip to the Usage instructions.  
 Otherwise, download RP42 from the [releases](https://github.com/alexandregv/RP42/releases) page, or build it yourself.  
 
-## Usage at 42Paris
-Just execute `open /sgoinfre/goinfre/Perso/aguiot--/public/RP42.app` or launch it from the Finder.  
+## Usage at 42Paris or 42Lyon
+Paris: execute `open /sgoinfre/goinfre/Perso/aguiot--/public/RP42.app` or launch it from the Finder.  
+Lyon: execute `/sgoinfre/Perso/amonteli/RP42/RP42 &`.  
+The app will appear in your menu/tray bar (near the clock). Right click it to quit.
 
 ## Usage in other campuses
 Follow Installation instructions and then double-click the file, or use these commands:  
 Linux: `./RP42 &`  
 Windows: `RP42.exe`  
 MacOS: `open RP42.app`  
+The app will appear in your menu/tray bar (near the clock). Right click it to quit.
 
 ## Building yourself
 If you want to build RP42 yourself, you will have to generate an app on the 42's API and then follow these instructions:  
