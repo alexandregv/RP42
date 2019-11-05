@@ -54,6 +54,8 @@ func sendActivity(details string, state string, largeText string, smallImage str
 
 func setPresence(user *api.User, location *api.Location, coalition *api.Coalition) {
 	lvl := fmt.Sprintf("%.2f", user.CursusUsers[0].Level)
+	login := user.Login
+	campus := user.Campus[0].Name
 
 	var (
 		start   int64
@@ -79,9 +81,9 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 	}
 
 	sendActivity(
-		fmt.Sprint("Level: ", lvl),
-		fmt.Sprint("Location: ", loc),
-		user.Login,
+		fmt.Sprintf("%s | Lvl %s", login, lvl),
+		fmt.Sprintf("%s in %s", loc, campus),
+		"Download: git.io/Je2xQ",
 		coaSlug,
 		coaName,
 		start,

@@ -77,9 +77,13 @@ type User struct {
 			CreatedAt   time.Time `json:"created_at"`
 			UserID      int       `json:"user_id"`
 		} `json:"expertises_users"`
+	*/
 		Campus []struct {
+	/*
 			ID       int    `json:"id"`
+	*/
 			Name     string `json:"name"`
+	/*
 			TimeZone string `json:"time_zone"`
 			Language struct {
 				ID         int       `json:"id"`
@@ -90,7 +94,9 @@ type User struct {
 			} `json:"language"`
 			UsersCount  int `json:"users_count"`
 			VogsphereID int `json:"vogsphere_id"`
+	*/
 		} `json:"campus"`
+	/*
 		CampusUsers []struct {
 			ID        int  `json:"id"`
 			UserID    int  `json:"user_id"`
