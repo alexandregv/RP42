@@ -53,41 +53,47 @@ func sendActivity(details string, state string, largeText string, smallImage str
 }
 
 func setPresence(user *api.User, location *api.Location, coalition *api.Coalition) {
-	lvl := fmt.Sprintf("%.2f", user.CursusUsers[0].Level)
-	login := user.Login
-	campus := user.Campus[0].Name
+	for _, cursus_user := range user.CursusUsers {
+		if cursus_user.EndAt == nil {
+			lvl := fmt.Sprintf("%.2f", cursus_user.Level)
+			login := user.Login
+			campus := user.Campus[0].Name
 
-	var (
-		start   int64
-		loc     string
-		coaName string
-		coaSlug string
-	)
+			var (
+				start   int64
+				loc     string
+				coaName string
+				coaSlug string
+			)
 
-	if location == nil {
-		loc = "¯\\_(ツ)_/¯"
-		start = time.Now().Unix()
-	} else {
-		loc = location.Host
-		start = location.BeginAt.Unix()
+			if location == nil {
+				loc = "¯\\_(ツ)_/¯"
+				start = time.Now().Unix()
+			} else {
+				loc = location.Host
+				start = location.BeginAt.Unix()
+			}
+
+			if coalition == nil {
+				coaName = "None"
+				coaSlug = "none"
+			} else {
+				coaName = coalition.Name
+				coaSlug = coalition.Slug
+			}
+
+			sendActivity(
+				fmt.Sprintf("%s | Lvl %s", login, lvl),
+				fmt.Sprintf("%s in %s", loc, campus),
+				"Download: git.io/Je2xQ",
+				coaSlug,
+				coaName,
+				start,
+			)
+			return
+		}
 	}
 
-	if coalition == nil {
-		coaName = "None"
-		coaSlug = "none"
-	} else {
-		coaName = coalition.Name
-		coaSlug = coalition.Slug
-	}
-
-	sendActivity(
-		fmt.Sprintf("%s | Lvl %s", login, lvl),
-		fmt.Sprintf("%s in %s", loc, campus),
-		"Download: git.io/Je2xQ",
-		coaSlug,
-		coaName,
-		start,
-	)
 }
 
 func onReady() {
@@ -102,7 +108,7 @@ func onReady() {
 	user := api.GetUser(login)
 	loc := api.GetUserLastLocation(login)
 	time.Sleep(1 * time.Second)
-	coa := api.GetUserCoalition(login)
+	coa := api.GetUserCoalition(user)
 
 	setPresence(user, loc, coa)
 

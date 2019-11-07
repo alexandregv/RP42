@@ -53,15 +53,21 @@ func GetUserLastLocation(login string) *Location {
 }
 
 // GetUserCoalition() returns the Coalition of an user.
-func GetUserCoalition(login string) *Coalition {
-	resp := fetch(fmt.Sprint("/v2/users/", login, "/coalitions"))
+func GetUserCoalition(user *User) *Coalition {
+	resp := fetch(fmt.Sprint("/v2/coalitions_users/", "?user_id=", fmt.Sprint(user.ID), "&sort=-created_at"))
+	coalition_users := []CoalitionUser{}
+	json.Unmarshal(resp, &coalition_users)
 
+	resp = fetch(fmt.Sprint("/v2/users/", user.Login, "/coalitions"))
 	coalitions := []Coalition{}
 	json.Unmarshal(resp, &coalitions)
 
 	if len(coalitions) > 0 {
-		return &coalitions[len(coalitions)-1]
-	} else {
-		return nil
+		for i, n := range coalitions {
+			if n.ID == coalition_users[0].CoalitionID {
+				return &coalitions[i]
+			}
+		}
 	}
+	return nil
 }
