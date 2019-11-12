@@ -58,6 +58,7 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 			lvl := fmt.Sprintf("%.2f", cursus_user.Level)
 			login := user.Login
 			campus := user.Campus[0].Name
+			separator := " in "
 
 			var (
 				start   int64
@@ -68,6 +69,8 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 
 			if location == nil {
 				loc = "¯\\_(ツ)_/¯"
+				campus = ""
+				separator = ""
 				start = time.Now().Unix()
 			} else {
 				loc = location.Host
@@ -84,7 +87,7 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 
 			sendActivity(
 				fmt.Sprintf("%s | Lvl %s", login, lvl),
-				fmt.Sprintf("%s in %s", loc, campus),
+				fmt.Sprint(loc, separator, campus),
 				"Download: git.io/Je2xQ",
 				coaSlug,
 				coaName,
