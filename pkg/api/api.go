@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/alexandregv/RP42/pkg/oauth"
 	"io/ioutil"
+	"time"
 )
 
 const URL = "https://api.intra.42.fr"
@@ -39,14 +40,30 @@ func GetUser(login string) *User {
 }
 
 // GetUserLastLocation returns the last Location of an user.
-func GetUserLastLocation(login string) *Location {
-	resp := fetch(fmt.Sprint("/v2/users/", login, "/locations?filter[active]=true"))
+func GetUserLastLocation(user *User) *Location {
+	resp := fetch(fmt.Sprint("/v2/users/", user.Login, "/locations?filter[active]=true"))
 
 	locations := []Location{}
 	json.Unmarshal(resp, &locations)
 
 	if len(locations) > 0 {
 		return &locations[len(locations)-1]
+	} else {
+		return nil
+	}
+}
+
+// GetUserFirstLocation returns the first Location of an user (in a day).
+func GetUserFirstLocation(user *User) *Location {
+	now := time.Now().UTC()
+	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC).Format("2006-01-02T15:04:05.000Z")
+	resp := fetch(fmt.Sprint("/v2/users/" + user.Login + "/locations?range[begin_at]=" + midnight + "," + now.Format("2006-01-02T15:04:05.000Z"+"&sort=begin_at")))
+
+	locations := []Location{}
+	json.Unmarshal(resp, &locations)
+
+	if len(locations) > 0 {
+		return &locations[0]
 	} else {
 		return nil
 	}

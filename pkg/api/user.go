@@ -5,7 +5,7 @@ package api
 // User represents an user from the 42's API.
 // Truncated to keep only useful entries.
 type User struct {
-			ID              int           `json:"id"`
+	ID int `json:"id"`
 	//		Email           string        `json:"email"`
 	Login string `json:"login"`
 	//		FirstName       string        `json:"first_name"`
@@ -18,13 +18,13 @@ type User struct {
 	//		CorrectionPoint int           `json:"correction_point"`
 	//		PoolMonth       string        `json:"pool_month"`
 	//		PoolYear        string        `json:"pool_year"`
-	//		Location        string        `json:"location"`
+	Location string `json:"location"`
 	//		Wallet          int           `json:"wallet"`
 	//		Groups          []interface{} `json:"groups"`
 	CursusUsers []struct {
 		//			ID           int           `json:"id"`
 		//			BeginAt      time.Time     `json:"begin_at"`
-		EndAt        interface{}   `json:"end_at"`
+		EndAt interface{} `json:"end_at"`
 		//			Grade        interface{}   `json:"grade"`
 		Level float64 `json:"level"`
 		//			Skills       []interface{} `json:"skills"`

@@ -67,13 +67,13 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 				coaSlug string
 			)
 
-			if location == nil {
+			if user.Location == "" {
 				loc = "¯\\_(ツ)_/¯"
 				campus = ""
 				separator = ""
 				start = time.Now().Unix()
 			} else {
-				loc = location.Host
+				loc = user.Location
 				start = location.BeginAt.Unix()
 			}
 
@@ -109,7 +109,7 @@ func onReady() {
 	login := osUser.Username
 
 	user := api.GetUser(login)
-	loc := api.GetUserLastLocation(login)
+	loc := api.GetUserFirstLocation(user)
 	time.Sleep(1 * time.Second)
 	coa := api.GetUserCoalition(user)
 
