@@ -8,8 +8,8 @@ If you are logged at 42Paris or 42Lyon, you don't have to download or install an
 Otherwise, download RP42 from the [releases](https://github.com/alexandregv/RP42/releases) page, or build it yourself.  
 
 ## Usage at 42Paris or 42Lyon
-Paris: execute `open /sgoinfre/goinfre/Perso/aguiot--/public/RP42.app` or launch it from the Finder.  
-Lyon: execute `/sgoinfre/Perso/amonteli/RP42/RP42 &`.  
+Paris: execute `open /sgoinfre/goinfre/Perso/aguiot--/public/RP42.app`  
+Lyon: execute `open /sgoinfre/Perso/amonteli/RP42/RP42.app`.  
 The app will appear in your menu/tray bar (near the clock). Right click it to quit.
 
 ## Usage in other campuses
