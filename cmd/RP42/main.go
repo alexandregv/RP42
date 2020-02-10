@@ -54,7 +54,7 @@ func sendActivity(details string, state string, largeText string, smallImage str
 
 func setPresence(user *api.User, location *api.Location, coalition *api.Coalition) {
 	for _, cursus_user := range user.CursusUsers {
-		if cursus_user.EndAt == nil {
+		if cursus_user.Cursus.Slug == "42cursus" || cursus_user.Cursus.Slug == "42" || cursus_user.Cursus.Slug == "c-piscine" {
 			lvl := fmt.Sprintf("%.2f", cursus_user.Level)
 			login := user.Login
 			campus := user.Campus[0].Name

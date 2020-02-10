@@ -24,19 +24,19 @@ type User struct {
 	CursusUsers []struct {
 		//			ID           int           `json:"id"`
 		//			BeginAt      time.Time     `json:"begin_at"`
-		EndAt interface{} `json:"end_at"`
+		//EndAt interface{} `json:"end_at"`
 		//			Grade        interface{}   `json:"grade"`
 		Level float64 `json:"level"`
 		//			Skills       []interface{} `json:"skills"`
 		//			CursusID     int           `json:"cursus_id"`
 		//			HasCoalition bool          `json:"has_coalition"`
 		//			User         User          `json:"user"`
-		//			Cursus struct {
+					Cursus struct {
 		//				ID        int       `json:"id"`
 		//				CreatedAt time.Time `json:"created_at"`
 		//				Name      string    `json:"name"`
-		//				Slug      string    `json:"slug"`
-		//			} `json:"cursus"`
+						Slug      string    `json:"slug"`
+					} `json:"cursus"`
 	} `json:"cursus_users"`
 	//		ProjectsUsers  []interface{} `json:"projects_users"`
 	//		LanguagesUsers []struct {
