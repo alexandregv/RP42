@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/alexandregv/RP42/internal/icon"
 	"github.com/alexandregv/RP42/pkg/api"
-	discord "github.com/ananagame/rich-go/client"
+	discord "github.com/hugolgst/rich-go/client"
 	"github.com/getlantern/systray"
 	"os/user"
 	"sync"
