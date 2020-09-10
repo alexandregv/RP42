@@ -7,6 +7,7 @@ import (
 	discord "github.com/hugolgst/rich-go/client"
 	"github.com/getlantern/systray"
 	"os/user"
+	"strings"
 	"sync"
 	"time"
 )
@@ -106,7 +107,7 @@ func onReady() {
 	if err != nil {
 		panic(err)
 	}
-	login := osUser.Username
+	login := strings.ToLower(osUser.Username)
 
 	user := api.GetUser(login)
 	loc := api.GetUserFirstLocation(user)
