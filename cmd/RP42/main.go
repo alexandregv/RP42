@@ -29,7 +29,7 @@ func setupTray() {
 	}()
 }
 
-func sendActivity(details string, state string, largeText string, smallImage string, smallText string, startTimestamp int64) {
+func sendActivity(details string, state string, largeText string, smallImage string, smallText string, startTimestamp *time.Time) {
 	err := discord.Login(DISCORD_APP_ID)
 	if err != nil {
 		panic(err)
@@ -61,7 +61,7 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 			separator := " in "
 
 			var (
-				start   int64
+				start   time.Time
 				loc     string
 				coaName string
 				coaSlug string
@@ -71,10 +71,10 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 				loc = "¯\\_(ツ)_/¯"
 				campus = ""
 				separator = ""
-				start = time.Now().Unix()
+				start = time.Now()
 			} else {
 				loc = user.Location
-				start = location.BeginAt.Unix()
+				start = location.BeginAt
 			}
 
 			if coalition == nil {
@@ -91,7 +91,7 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 				"Download: git.io/Je2xQ",
 				coaSlug,
 				coaName,
-				start,
+				&start,
 			)
 			return
 		}
