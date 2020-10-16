@@ -111,6 +111,10 @@ func onReady() {
 
 	user := api.GetUser(login)
 	loc := api.GetUserFirstLocation(user)
+	if loc == nil {
+		time.Sleep(1 * time.Second)
+		loc = api.GetUserLastLocation(user)
+	}
 	time.Sleep(1 * time.Second)
 	coa := api.GetUserCoalition(user)
 
