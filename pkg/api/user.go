@@ -21,23 +21,7 @@ type User struct {
 	Location string `json:"location"`
 	//		Wallet          int           `json:"wallet"`
 	//		Groups          []interface{} `json:"groups"`
-	CursusUsers []struct {
-		//			ID           int           `json:"id"`
-		//			BeginAt      time.Time     `json:"begin_at"`
-		//EndAt interface{} `json:"end_at"`
-		//			Grade        interface{}   `json:"grade"`
-		Level float64 `json:"level"`
-		//			Skills       []interface{} `json:"skills"`
-		//			CursusID     int           `json:"cursus_id"`
-		//			HasCoalition bool          `json:"has_coalition"`
-		//			User         User          `json:"user"`
-					Cursus struct {
-		//				ID        int       `json:"id"`
-		//				CreatedAt time.Time `json:"created_at"`
-		//				Name      string    `json:"name"`
-						Slug      string    `json:"slug"`
-					} `json:"cursus"`
-	} `json:"cursus_users"`
+	CursusUsers []CursusUser `json:"cursus_users"`
 	//		ProjectsUsers  []interface{} `json:"projects_users"`
 	//		LanguagesUsers []struct {
 	//			ID         int       `json:"id"`
@@ -88,4 +72,22 @@ type User struct {
 	//			CampusID  int  `json:"campus_id"`
 	//			IsPrimary bool `json:"is_primary"`
 	//		} `json:"campus_users"`
+}
+
+type CursusUser struct {
+	//			ID           int           `json:"id"`
+	//			BeginAt      time.Time     `json:"begin_at"`
+	//			EndAt interface{} `json:"end_at"`
+	//			Grade        interface{}   `json:"grade"`
+	Level float64 `json:"level"`
+	//			Skills       []interface{} `json:"skills"`
+	//			CursusID     int           `json:"cursus_id"`
+	//			HasCoalition bool          `json:"has_coalition"`
+	//			User         User          `json:"user"`
+	Cursus struct {
+		//				ID        int       `json:"id"`
+		//				CreatedAt time.Time `json:"created_at"`
+		//				Name      string    `json:"name"`
+		Slug string `json:"slug"`
+	} `json:"cursus"`
 }
