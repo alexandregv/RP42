@@ -75,8 +75,14 @@ func getActiveCursus(user *api.User) *api.CursusUser {
 }
 
 func getLoginTimeOfCurrentUser() time.Time {
-	out, _ := exec.Command("bash", "-c", "last -n 1 --fulltimes $(who | awk '{print $1}') | head -n 1 | awk '{print $4 \" \" $5 \" \" $6 \" \" $7 \" \" $8}' | tr -d '\n'; echo -n ' '; date +'%z' | tr -d '\n'").Output()
-	start, _ := time.Parse("Mon Jan 02 15:04:05 2006 -0700", string(out))
+	var start	time.Time
+	out, err := exec.Command("bash", "-c", "last -n 1 --fulltimes $(who | awk '{print $1}') | head -n 1 | awk '{print $4 \" \" $5 \" \" $6 \" \" $7 \" \" $8}' | tr -d '\n' && echo -n ' ' && date +'%z' | tr -d '\n'").Output()
+	if err == nil {
+		start, err = time.Parse("Mon Jan 02 15:04:05 2006 -0700", string(out))
+	}
+	if err != nil {
+		start = time.Now()
+	}
 	return start
 }
 
