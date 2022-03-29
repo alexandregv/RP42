@@ -104,7 +104,7 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 
 		hostname, err := os.Hostname()
 
-		if err == nil && hostname == "dump-tuteur.clusters.42paris.fr" {
+		if err == nil && user.Location == "" && hostname == "dump-tuteur.clusters.42paris.fr" {
 			loc = "Tutor dump 🐝"
 			start = getLoginTimeOfCurrentUser()
 		} else if user.Location == "" {
