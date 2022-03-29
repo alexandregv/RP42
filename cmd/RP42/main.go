@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"os/user"
 	"strings"
 	"sync"
@@ -72,6 +74,12 @@ func getActiveCursus(user *api.User) *api.CursusUser {
 	return active_cursus
 }
 
+func getLoginTimeOfCurrentUser() time.Time {
+	out, _ := exec.Command("bash", "-c", "last -n 1 --fulltimes $(who | awk '{print $1}') | head -n 1 | awk '{print $4 \" \" $5 \" \" $6 \" \" $7 \" \" $8}' | tr -d '\n'; echo -n ' '; date +'%z' | tr -d '\n'").Output()
+	start, _ := time.Parse("Mon Jan 02 15:04:05 2006 -0700", string(out))
+	return start
+}
+
 func setPresence(user *api.User, location *api.Location, coalition *api.Coalition) {
 	cursus_user := getActiveCursus(user)
 
@@ -88,7 +96,12 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 			coaSlug string
 		)
 
-		if user.Location == "" {
+		hostname, err := os.Hostname()
+
+		if err == nil && hostname == "dump-tuteur.clusters.42paris.fr" {
+			loc = "Tutor dump 🐝"
+			start = getLoginTimeOfCurrentUser()
+		} else if user.Location == "" {
 			loc = "¯\\_(ツ)_/¯"
 			campus = ""
 			separator = ""
