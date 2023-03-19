@@ -141,8 +141,12 @@ func onReady() {
 	flag.StringVar(&apiSecret, "secret", "", "Client Secret from API settings")
 	flag.Usage = func() {
 		fmt.Print(`Usage of RP42:
-	-i, --id Client ID from API settings (required)
-	-s, --secret Client Secret from API settings (required)
+	-i, --id Client ID of your API app (required)
+	-s, --secret Client Secret of your API app (required)
+	
+If you don't have an API app yet, create one here: https://profile.intra.42.fr/oauth/applications/new
+/!\ Do NOT share your credentials to someone else, or on GitHub, etc. /!\
+
 `)
 	}
 	flag.Parse()

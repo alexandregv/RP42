@@ -8,6 +8,8 @@ A Discord Rich Presence integration for [@42School](https://github.com/42School)
 2. On Linux and macOS: Run `chmod +x ./RP42`
 3. Create an API App on the Intranet: https://profile.intra.42.fr/oauth/applications/new
 
+/!\ Do NOT share your credentials to someone else, or on GitHub, etc. /!\
+
 ## Usage
 Run the app like this, using the credentials of your API App:
   - Linux: `./RP42 -i CLIENT_ID -s CLIENT_SECRET &`  
