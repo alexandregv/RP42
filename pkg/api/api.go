@@ -1,18 +1,20 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/alexandregv/RP42/pkg/oauth"
 	"io/ioutil"
 	"time"
+
+	"github.com/alexandregv/RP42/pkg/oauth"
 )
 
 const URL = "https://api.intra.42.fr"
 
 // fetch() queries an endpoint of the API.
-func fetch(endpoint string) []byte {
-	client := oauth.GetClient()
+func fetch(ctx context.Context, endpoint string) []byte {
+	client := ctx.Value("apiClient").(*oauth.Client)
 
 	resp, err := client.Get(fmt.Sprint(URL, endpoint))
 	if err != nil {
@@ -30,8 +32,8 @@ func fetch(endpoint string) []byte {
 }
 
 // GetUser() returns an User, based on his login.
-func GetUser(login string) *User {
-	resp := fetch(fmt.Sprint("/v2/users/", login))
+func GetUser(ctx context.Context, login string) *User {
+	resp := fetch(ctx, fmt.Sprint("/v2/users/", login))
 
 	user := User{}
 	json.Unmarshal(resp, &user)
@@ -40,8 +42,8 @@ func GetUser(login string) *User {
 }
 
 // GetUserLastLocation returns the last Location of an user.
-func GetUserLastLocation(user *User) *Location {
-	resp := fetch(fmt.Sprint("/v2/users/", user.Login, "/locations?filter[active]=true"))
+func GetUserLastLocation(ctx context.Context, user *User) *Location {
+	resp := fetch(ctx, fmt.Sprint("/v2/users/", user.Login, "/locations?filter[active]=true"))
 
 	locations := []Location{}
 	json.Unmarshal(resp, &locations)
@@ -54,10 +56,10 @@ func GetUserLastLocation(user *User) *Location {
 }
 
 // GetUserFirstLocation returns the first Location of an user (in a day).
-func GetUserFirstLocation(user *User) *Location {
+func GetUserFirstLocation(ctx context.Context, user *User) *Location {
 	now := time.Now().UTC()
 	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC).Format("2006-01-02T15:04:05.000Z")
-	resp := fetch(fmt.Sprint("/v2/users/" + user.Login + "/locations?range[begin_at]=" + midnight + "," + now.Format("2006-01-02T15:04:05.000Z"+"&sort=begin_at")))
+	resp := fetch(ctx, fmt.Sprint("/v2/users/"+user.Login+"/locations?range[begin_at]="+midnight+","+now.Format("2006-01-02T15:04:05.000Z"+"&sort=begin_at")))
 
 	locations := []Location{}
 	json.Unmarshal(resp, &locations)
@@ -70,12 +72,12 @@ func GetUserFirstLocation(user *User) *Location {
 }
 
 // GetUserCoalition() returns the Coalition of an user.
-func GetUserCoalition(user *User) *Coalition {
-	resp := fetch(fmt.Sprint("/v2/coalitions_users/", "?user_id=", fmt.Sprint(user.ID), "&sort=-created_at"))
+func GetUserCoalition(ctx context.Context, user *User) *Coalition {
+	resp := fetch(ctx, fmt.Sprint("/v2/coalitions_users/", "?user_id=", fmt.Sprint(user.ID), "&sort=-created_at"))
 	coalition_users := []CoalitionUser{}
 	json.Unmarshal(resp, &coalition_users)
 
-	resp = fetch(fmt.Sprint("/v2/users/", user.Login, "/coalitions"))
+	resp = fetch(ctx, fmt.Sprint("/v2/users/", user.Login, "/coalitions"))
 	coalitions := []Coalition{}
 	json.Unmarshal(resp, &coalitions)
 

@@ -1,7 +1,7 @@
 NAME		= RP42
 
 # Compiler & Preprocessor flags
-LDFLAGS		+= -X github.com/alexandregv/RP42/pkg/oauth.API_CLIENT_ID=${RP42_CLIENT_ID} -X github.com/alexandregv/RP42/pkg/oauth.API_CLIENT_SECRET=${RP42_CLIENT_SECRET}
+LDFLAGS		+= 
 MAKEFLAGS	+= --no-print-directory
 
 # Colors
@@ -30,7 +30,7 @@ $(NAME): linux windows macos
 
 linux:
 	@$(ECHO) "Linux\t[$(C_PENDING)⏳ $(C_RESET)]"
-	@GOOS=linux GOARCH=amd64 go build -o build/linux/$(NAME) -ldflags "$(LDFLAGS)" cmd/$(NAME)/main.go
+	@GOOS=linux GOARCH=amd64 go build -o build/linux/$(NAME) -ldflags "$(LDFLAGS)" -tags legacy_appindicator cmd/$(NAME)/main.go
 	@$(ERASE)
 	@$(ECHO) "Linux\t[$(C_SUCCESS)✅ $(C_RESET)]"
 

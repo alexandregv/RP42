@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
+	"flag"
 	"fmt"
+	"os"
 	"os/user"
 	"strings"
 	"sync"
@@ -9,6 +12,7 @@ import (
 
 	"github.com/alexandregv/RP42/internal/icon"
 	"github.com/alexandregv/RP42/pkg/api"
+	"github.com/alexandregv/RP42/pkg/oauth"
 	"github.com/getlantern/systray"
 	discord "github.com/hugolgst/rich-go/client"
 )
@@ -72,7 +76,7 @@ func getActiveCursus(user *api.User) *api.CursusUser {
 	return active_cursus
 }
 
-func setPresence(user *api.User, location *api.Location, coalition *api.Coalition) {
+func setPresence(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition) {
 	cursus_user := getActiveCursus(user)
 
 	if cursus_user != nil {
@@ -121,22 +125,45 @@ func setPresence(user *api.User, location *api.Location, coalition *api.Coalitio
 func onReady() {
 	setupTray()
 
+	ctx := context.Background()
+
 	osUser, err := user.Current()
 	if err != nil {
 		panic(err)
 	}
 	login := strings.ToLower(osUser.Username)
 
-	user := api.GetUser(login)
-	loc := api.GetUserFirstLocation(user)
+	var apiClient string
+	var apiSecret string
+	flag.StringVar(&apiClient, "i", "", "Client ID from API settings")
+	flag.StringVar(&apiClient, "id", "", "Client ID from API settings")
+	flag.StringVar(&apiSecret, "s", "", "Client Secret from API settings")
+	flag.StringVar(&apiSecret, "secret", "", "Client Secret from API settings")
+	flag.Usage = func() {
+		fmt.Print(`Usage of RP42:
+	-i, --id Client ID from API settings (required)
+	-s, --secret Client Secret from API settings (required)
+`)
+	}
+	flag.Parse()
+
+	if apiClient == "" || apiSecret == "" {
+		fmt.Println("Please provide Intra API credentials with --id and --secret. See --help for help.")
+		os.Exit(2)
+	}
+
+	ctx = context.WithValue(ctx, "apiClient", oauth.NewClient(apiClient, apiSecret))
+
+	user := api.GetUser(ctx, login)
+	loc := api.GetUserFirstLocation(ctx, user)
 	if loc == nil {
 		time.Sleep(1 * time.Second)
-		loc = api.GetUserLastLocation(user)
+		loc = api.GetUserLastLocation(ctx, user)
 	}
 	time.Sleep(1 * time.Second)
-	coa := api.GetUserCoalition(user)
+	coa := api.GetUserCoalition(ctx, user)
 
-	setPresence(user, loc, coa)
+	setPresence(ctx, user, loc, coa)
 
 	fmt.Println("Sleeping... Press CTRL+C to stop.")
 	m := sync.Mutex{}
