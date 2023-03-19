@@ -4,26 +4,22 @@ A Discord Rich Presence integration for [@42School](https://github.com/42School)
 ![Screenshot](https://raw.githubusercontent.com/alexandregv/RP42/master/screenshot.png)
 
 ## Installation
-If you are logged at 42Paris or 42Lyon, you don't have to download or install anything. Just skip to the Usage instructions.  
-Otherwise, download RP42 from the [releases](https://github.com/alexandregv/RP42/releases) page, or build it yourself.  
+1. Download RP42 from the [releases](https://github.com/alexandregv/RP42/releases) page, or build it yourself.  
+2. On Linux and macOS: Run `chmod +x ./RP42`
+3. Create an API App on the Intranet: https://profile.intra.42.fr/oauth/applications/new
 
-## Usage at 42Paris or 42Lyon
-Paris: execute `open /sgoinfre/goinfre/Perso/aguiot--/public/RP42.app`  
-Lyon: execute `open /sgoinfre/Perso/amonteli/RP42/RP42.app`.  
-The app will appear in your menu/tray bar (near the clock). Right click it to quit.
+## Usage
+Run the app like this, using the credentials of your API App:
+  - Linux: `./RP42 -i CLIENT_ID -s CLIENT_SECRET &`  
+  - Windows: `RP42.exe -i CLIENT_ID -s CLIENT_SECRET`  
+  - MacOS: `open RP42.app -i CLIENT_ID -s CLIENT_SECRET`  
 
-## Usage in other campuses
-Follow Installation instructions and then double-click the file, or use these commands:  
-Linux: `./RP42 &`  
-Windows: `RP42.exe`  
-MacOS: `open RP42.app`  
 The app will appear in your menu/tray bar (near the clock). Right click it to quit.
 
 ## Building yourself
 If you want to build RP42 yourself, you will have to generate an app on the 42's API and then follow these instructions:  
 1. Clone the repo: `git clone https://github.com/alexandregv/RP42.git`  
-2. Export API credentials: `export RP42_CLIENT_ID=<your-client-id> && export RP42_CLIENT_SECRET=<your-client-secret>`  
-3. Compile: `make`  
+3. Compile: `make` for all distro, or `make linux` / `make macos` / `make windows`
 
 ## Contributing
 
