@@ -33,3 +33,6 @@ If you want to build RP42 yourself, you will have to generate an app on the 42's
 ## Contributors
 
 - [alexandregv/aguiot--](https://github.com/alexandregv) - creator and maintainer  
+
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/alexandregv/RP42.svg?variant=adaptive)](https://starchart.cc/alexandregv/RP42)
