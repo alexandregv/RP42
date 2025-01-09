@@ -90,3 +90,13 @@ func GetUserCoalition(ctx context.Context, user *User) *Coalition {
 	}
 	return nil
 }
+
+// GetCampus() returns a Campus, based on its id.
+func GetCampus(ctx context.Context, id int) *Campus {
+	resp := fetch(ctx, fmt.Sprint("/v2/campus/", id))
+
+	campus := Campus{}
+	json.Unmarshal(resp, &campus)
+
+	return &campus
+}

@@ -52,7 +52,6 @@ func sendActivity(details string, state string, largeText string, smallImage str
 			Start: startTimestamp,
 		},
 	})
-
 	if err != nil {
 		panic(err)
 	}
@@ -76,30 +75,31 @@ func getActiveCursus(user *api.User) *api.CursusUser {
 	return active_cursus
 }
 
-func setPresence(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition) {
+func setPresence(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) {
 	cursus_user := getActiveCursus(user)
 
 	if cursus_user != nil {
 		lvl := fmt.Sprintf("%.2f", cursus_user.Level)
 		login := user.Login
-		campus := user.Campus[0].Name
 		separator := " in "
 
 		var (
-			start   time.Time
-			loc     string
-			coaName string
-			coaSlug string
+			start      time.Time
+			loc        string
+			campusName string
+			coaName    string
+			coaSlug    string
 		)
 
 		if user.Location == "" {
 			loc = "¯\\_(ツ)_/¯"
-			campus = ""
+			campusName = ""
 			separator = ""
 			start = time.Now()
 		} else {
 			loc = user.Location
 			start = location.BeginAt
+			campusName = campus.Name
 		}
 
 		if coalition == nil {
@@ -112,7 +112,7 @@ func setPresence(ctx context.Context, user *api.User, location *api.Location, co
 
 		sendActivity(
 			fmt.Sprintf("%s | Lvl %s", login, lvl),
-			fmt.Sprint(loc, separator, campus),
+			fmt.Sprint(loc, separator, campusName),
 			"Download: git.io/Je2xQ",
 			coaSlug,
 			coaName,
@@ -166,8 +166,9 @@ If you don't have an API app yet, create one here: https://profile.intra.42.fr/o
 	}
 	time.Sleep(1 * time.Second)
 	coa := api.GetUserCoalition(ctx, user)
+	campus := api.GetCampus(ctx, loc.CampusID)
 
-	setPresence(ctx, user, loc, coa)
+	setPresence(ctx, user, loc, coa, campus)
 
 	fmt.Println("Sleeping... Press CTRL+C to stop.")
 	m := sync.Mutex{}
