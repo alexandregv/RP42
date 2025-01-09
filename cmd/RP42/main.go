@@ -110,6 +110,11 @@ func setPresence(ctx context.Context, user *api.User, location *api.Location, co
 			coaSlug = coalition.Slug
 		}
 
+		// Discord doesn't handle Unix Epoch 0, so map it to unix0 + 1 sec
+		if start.Unix() <= 0 {
+			start = time.Unix(1, 0)
+		}
+
 		sendActivity(
 			fmt.Sprintf("%s | Lvl %s", login, lvl),
 			fmt.Sprint(loc, separator, campusName),
