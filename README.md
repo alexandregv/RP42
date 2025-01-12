@@ -8,6 +8,12 @@ A Discord Rich Presence integration for [@42School](https://github.com/42School)
 1. Download RP42 from the [releases](https://github.com/alexandregv/RP42/releases) page, or build it yourself
 2. Create an API App on the Intranet: https://profile.intra.42.fr/oauth/applications/new
 
+Alternatively, if you have Go installed:
+
+```bash
+go install github.com/alexandregv/RP42@latest
+```
+
 /!\ Do NOT share your API credentials to someone else, or on GitHub, etc. /!\
 
 ## Usage
