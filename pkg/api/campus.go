@@ -1,5 +1,11 @@
 package api
 
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+)
+
 // Campus represents a campus from the 42's API.
 // Truncated to keep only useful entries.
 type Campus struct {
@@ -31,4 +37,14 @@ type Campus struct {
 	// 	CreatedAt   time.Time `json:"created_at"`
 	// 	UpdatedAt   time.Time `json:"updated_at"`
 	// } `json:"endpoint"`
+}
+
+// GetCampus() returns a Campus, based on its id.
+func GetCampus(ctx context.Context, id int) *Campus {
+	resp := fetch(ctx, fmt.Sprint("/v2/campus/", id))
+
+	campus := Campus{}
+	json.Unmarshal(resp, &campus)
+
+	return &campus
 }
