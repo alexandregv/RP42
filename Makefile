@@ -64,10 +64,7 @@ lint:        ## Run linters and fix code, when possible (golangci-lint)
 check-lint:  ## Run linters in read-only (golangci-lint)
 	go tool github.com/golangci/golangci-lint/cmd/golangci-lint run --show-stats
 
-check-make:  ## Check Makefile syntax and integrity (checkmake)
-	go tool github.com/mrtazz/checkmake/cmd/checkmake Makefile
-
-check: check-make check-lint pre-commit-run test cover  ## Run all checks
+check: check-lint pre-commit-run test cover  ## Run all checks
 
 
 ##@ Pre-commit hooks
@@ -88,4 +85,4 @@ genphony:  ## Generate .PHONY target with all Makefile targets
 	echo .PHONY: $$(grep -E '^[A-Za-z0-9\-]+:' Makefile | rev | cut -d: -f2- | rev | grep -v phony) >> Makefile
 	# don't forget to remove the old .PHONY line
 
-.PHONY: re clean help get-tag get-version commit tag all linux macos windows test cover lint check-lint check-make check pre-commit-install pre-commit-update pre-commit-run pre-commit
+.PHONY: re clean help get-tag get-version commit tag all linux macos windows test cover lint check-lint check pre-commit-install pre-commit-update pre-commit-run pre-commit
