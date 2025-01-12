@@ -1,7 +1,7 @@
 # RP42
 
 A Discord Rich Presence integration for [@42School](https://github.com/42School).  
-![Screenshot](https://raw.githubusercontent.com/alexandregv/RP42/master/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/alexandregv/RP42/refs/heads/master/screenshot.png)
 
 <!--TOC-->
 
