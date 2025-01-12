@@ -99,11 +99,14 @@ type CursusUser struct {
 }
 
 // GetUser() returns an User, based on his login.
-func GetUser(ctx context.Context, login string) *User {
-	resp := fetch(ctx, fmt.Sprint("/v2/users/", login))
+func GetUser(ctx context.Context, login string) (user *User, err error) {
+	resp, err := fetch(ctx, fmt.Sprint("/v2/users/", login))
 
-	user := User{}
-	json.Unmarshal(resp, &user)
+	user = &User{}
+	err = json.Unmarshal(resp, &user)
+	if err != nil {
+		return nil, err
+	}
 
-	return &user
+	return user, nil
 }

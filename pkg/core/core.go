@@ -105,18 +105,38 @@ func setPresence(ctx context.Context, user *api.User, location *api.Location, co
 	}
 }
 
-func Run(ctx context.Context, login string, apiClient string, apiSecret string) {
+func Run(ctx context.Context, login string, apiClient string, apiSecret string) (err error) {
 	ctx = context.WithValue(ctx, "apiClient", oauth.NewClient(apiClient, apiSecret))
 
-	user := api.GetUser(ctx, login)
-	loc := api.GetUserFirstLocation(ctx, user)
+	user, err := api.GetUser(ctx, login)
+	if err != nil {
+		return err
+	}
+
+	loc, err := api.GetUserFirstLocation(ctx, user)
+	if err != nil {
+		return err
+	}
 	if loc == nil {
 		time.Sleep(1 * time.Second)
-		loc = api.GetUserLastLocation(ctx, user)
+		loc, err = api.GetUserLastLocation(ctx, user)
+		if err != nil {
+			return err
+		}
 	}
+
 	time.Sleep(1 * time.Second)
-	coa := api.GetUserCoalition(ctx, user)
-	campus := api.GetCampus(ctx, loc.CampusID)
+
+	coa, err := api.GetUserCoalition(ctx, user)
+	if err != nil {
+		return err
+	}
+
+	campus, err := api.GetCampus(ctx, loc.CampusID)
+	if err != nil {
+		return err
+	}
 
 	setPresence(ctx, user, loc, coa, campus)
+	return nil
 }

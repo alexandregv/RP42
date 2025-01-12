@@ -40,11 +40,17 @@ type Campus struct {
 }
 
 // GetCampus() returns a Campus, based on its id.
-func GetCampus(ctx context.Context, id int) *Campus {
-	resp := fetch(ctx, fmt.Sprint("/v2/campus/", id))
+func GetCampus(ctx context.Context, id int) (campus *Campus, err error) {
+	resp, err := fetch(ctx, fmt.Sprint("/v2/campus/", id))
+	if err != nil {
+		return nil, err
+	}
 
-	campus := Campus{}
-	json.Unmarshal(resp, &campus)
+	campus = &Campus{}
+	err = json.Unmarshal(resp, &campus)
+	if err != nil {
+		return nil, err
+	}
 
-	return &campus
+	return campus, nil
 }

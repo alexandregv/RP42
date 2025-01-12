@@ -41,7 +41,11 @@ var rootCmd = &cobra.Command{
 			os.Exit(2)
 		}
 
-		core.Run(ctx, login, apiClient, apiSecret)
+		err = core.Run(ctx, login, apiClient, apiSecret)
+		if err != nil {
+			fmt.Println("Error while trying to send Rich Presence: %s", err.Error())
+			os.Exit(1)
+		}
 
 		fmt.Println("Sleeping... Press CTRL+C to stop.")
 		m := sync.Mutex{}

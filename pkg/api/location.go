@@ -23,31 +23,43 @@ type Location struct {
 }
 
 // GetUserFirstLocation returns the first Location of an user (in a day).
-func GetUserFirstLocation(ctx context.Context, user *User) *Location {
+func GetUserFirstLocation(ctx context.Context, user *User) (loc *Location, err error) {
 	now := time.Now().UTC()
 	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC).Format("2006-01-02T15:04:05.000Z")
-	resp := fetch(ctx, fmt.Sprint("/v2/users/"+user.Login+"/locations?range[begin_at]="+midnight+","+now.Format("2006-01-02T15:04:05.000Z"+"&sort=begin_at")))
+	resp, err := fetch(ctx, fmt.Sprint("/v2/users/"+user.Login+"/locations?range[begin_at]="+midnight+","+now.Format("2006-01-02T15:04:05.000Z"+"&sort=begin_at")))
+	if err != nil {
+		return nil, err
+	}
 
 	locations := []Location{}
-	json.Unmarshal(resp, &locations)
+	err = json.Unmarshal(resp, &locations)
+	if err != nil {
+		return nil, err
+	}
 
 	if len(locations) > 0 {
-		return &locations[0]
+		return &locations[0], nil
 	} else {
-		return nil
+		return nil, nil
 	}
 }
 
 // GetUserLastLocation returns the last Location of an user.
-func GetUserLastLocation(ctx context.Context, user *User) *Location {
-	resp := fetch(ctx, fmt.Sprint("/v2/users/", user.Login, "/locations?filter[active]=true"))
+func GetUserLastLocation(ctx context.Context, user *User) (loc *Location, err error) {
+	resp, err := fetch(ctx, fmt.Sprint("/v2/users/", user.Login, "/locations?filter[active]=true"))
+	if err != nil {
+		return nil, err
+	}
 
 	locations := []Location{}
-	json.Unmarshal(resp, &locations)
+	err = json.Unmarshal(resp, &locations)
+	if err != nil {
+		return nil, err
+	}
 
 	if len(locations) > 0 {
-		return &locations[len(locations)-1]
+		return &locations[len(locations)-1], nil
 	} else {
-		return nil
+		return nil, nil
 	}
 }
