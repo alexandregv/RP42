@@ -30,19 +30,19 @@ $(NAME): linux windows macos
 
 linux:
 	@$(ECHO) "Linux\t[$(C_PENDING)⏳ $(C_RESET)]"
-	@GOOS=linux GOARCH=amd64 go build -o build/linux/$(NAME) -ldflags "$(LDFLAGS)" -tags legacy_appindicator cmd/$(NAME)/main.go
+	@GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o build/linux/$(NAME) -ldflags "$(LDFLAGS)" -tags legacy_appindicator cmd/$(NAME)/main.go
 	@$(ERASE)
 	@$(ECHO) "Linux\t[$(C_SUCCESS)✅ $(C_RESET)]"
 
 windows:
 	@$(ECHO) "Windows\t[$(C_PENDING)⏳ $(C_RESET)]"
-	@GOOS=windows GOARCH=amd64 go build -o build/windows/$(NAME).exe -ldflags "-H=windowsgui $(LDFLAGS)" cmd/$(NAME)/main.go
+	@GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -o build/windows/$(NAME).exe -ldflags "-H=windowsgui $(LDFLAGS)" cmd/$(NAME)/main.go
 	@$(ERASE)
 	@$(ECHO) "Windows\t[$(C_SUCCESS)✅ $(C_RESET)]"
 
 macos:
 	@$(ECHO) "MacOS\t[$(C_PENDING)⏳ $(C_RESET)]"
-	@env GOOS=darwin GOARCH=amd64 go build -o build/macOS/$(NAME) -ldflags "$(LDFLAGS)" cmd/$(NAME)/main.go
+	@env GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -o build/macOS/$(NAME) -ldflags "$(LDFLAGS)" cmd/$(NAME)/main.go
 	@cp -R assets/macOS/ build/macOS/
 	@cp build/macOS/$(NAME) build/macOS/$(NAME).app/Contents/MacOS/RP42
 	@rm build/macOS/$(NAME).app/Contents/MacOS/.gitkeep

@@ -18,8 +18,6 @@ Run the app like this, using the credentials of your API App:
 - Windows: `RP42.exe -i CLIENT_ID -s CLIENT_SECRET`
 - MacOS: `open RP42.app -i CLIENT_ID -s CLIENT_SECRET`
 
-The app will appear in your menu/tray bar (near the clock). Right click it to quit.
-
 ## Building yourself
 
 If you want to build RP42 yourself, follow these instructions:

@@ -10,29 +10,15 @@ import (
 	"sync"
 	"time"
 
-	"github.com/alexandregv/RP42/internal/icon"
 	"github.com/alexandregv/RP42/pkg/api"
 	"github.com/alexandregv/RP42/pkg/oauth"
-	"github.com/getlantern/systray"
 	discord "github.com/hugolgst/rich-go/client"
 )
 
 const DISCORD_APP_ID = "531103976029028367"
 
 func main() {
-	systray.Run(onReady, onExit)
-}
-
-func setupTray() {
-	systray.SetIcon(icon.Data)
-	systray.SetTitle("RP42")
-
-	mQuit := systray.AddMenuItem("Quit", "Quit")
-
-	go func() {
-		<-mQuit.ClickedCh
-		systray.Quit()
-	}()
+	onReady()
 }
 
 func sendActivity(details string, state string, largeText string, smallImage string, smallText string, startTimestamp *time.Time) {
@@ -128,8 +114,6 @@ func setPresence(ctx context.Context, user *api.User, location *api.Location, co
 }
 
 func onReady() {
-	setupTray()
-
 	ctx := context.Background()
 
 	osUser, err := user.Current()
@@ -179,8 +163,4 @@ If you don't have an API app yet, create one here: https://profile.intra.42.fr/o
 	m := sync.Mutex{}
 	m.Lock()
 	m.Lock()
-}
-
-func onExit() {
-	// clean up here
 }
