@@ -51,12 +51,11 @@ func (user *User) GetUserCoalition(ctx context.Context) (coa *Coalition, err err
 		return nil, err
 	}
 
-	if len(coalitions) > 0 {
-		for i, n := range coalitions {
-			if n.ID == coalition_users[0].CoalitionID {
-				return &coalitions[i], nil
-			}
+	for i, n := range coalitions {
+		if n.ID == coalition_users[0].CoalitionID {
+			return &coalitions[i], nil
 		}
 	}
+
 	return nil, nil
 }

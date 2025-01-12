@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"time"
 )
@@ -57,9 +58,9 @@ func (user *User) GetUserLastLocation(ctx context.Context) (loc *Location, err e
 		return nil, err
 	}
 
-	if len(locations) > 0 {
-		return &locations[len(locations)-1], nil
-	} else {
-		return nil, nil
+	if len(locations) == 0 {
+		return nil, errors.New("No location found")
 	}
+
+	return &locations[len(locations)-1], nil
 }
