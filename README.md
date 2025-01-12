@@ -3,6 +3,17 @@
 A Discord Rich Presence integration for [@42School](https://github.com/42School).  
 ![Screenshot](https://raw.githubusercontent.com/alexandregv/RP42/master/screenshot.png)
 
+<!--TOC-->
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Building yourself](#building-yourself)
+- [Contributing](#contributing)
+- [Contributors](#contributors)
+- [Stargazers over time](#stargazers-over-time)
+
+<!--TOC-->
+
 ## Installation
 
 1. Download RP42 from the [releases](https://github.com/alexandregv/RP42/releases) page, or build it yourself
