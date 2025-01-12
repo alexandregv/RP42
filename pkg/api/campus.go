@@ -39,7 +39,7 @@ type Campus struct {
 	// } `json:"endpoint"`
 }
 
-// GetCampus() returns a Campus, based on its id.
+// GetCampus returns a [Campus], based on its id.
 func GetCampus(ctx context.Context, id int) (campus *Campus, err error) {
 	resp, err := fetch(ctx, fmt.Sprint("/v2/campus/", id))
 	if err != nil {

@@ -6,9 +6,7 @@ import (
 	"fmt"
 )
 
-// import "time"
-
-// User represents an user from the 42's API.
+// User represents a user from the 42's API.
 // Truncated to keep only useful entries.
 type User struct {
 	ID int `json:"id"`
@@ -80,6 +78,8 @@ type User struct {
 	//		} `json:"campus_users"`
 }
 
+// CursusUser represents the membership of a [User] to a cursus.
+// Truncated to keep only useful entries.
 type CursusUser struct {
 	//			ID           int           `json:"id"`
 	//			BeginAt      time.Time     `json:"begin_at"`
@@ -98,7 +98,7 @@ type CursusUser struct {
 	} `json:"cursus"`
 }
 
-// GetUser() returns an User, based on his login.
+// GetUser returns a [User], based on his login.
 func GetUser(ctx context.Context, login string) (user *User, err error) {
 	resp, err := fetch(ctx, fmt.Sprint("/v2/users/", login))
 

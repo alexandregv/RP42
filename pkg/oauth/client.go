@@ -17,7 +17,7 @@ type Client struct {
 	*http.Client
 }
 
-// newClient() creates a new Client using client credentials OAuth flow.
+// NewClient creates a new [Client] using the Client Credentials OAuth flow.
 func NewClient(client_id string, client_secret string) *Client {
 	config := &clientcredentials.Config{
 		ClientID:     client_id,
