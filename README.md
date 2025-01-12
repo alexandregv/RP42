@@ -18,6 +18,22 @@ Run the app like this, using the credentials of your API App:
 - Windows: `RP42.exe -i CLIENT_ID -s CLIENT_SECRET`
 - MacOS: `open RP42.app -i CLIENT_ID -s CLIENT_SECRET`
 
+On Linux, to run it in background as a service, create a file `~/.config/systemd/user/RP42.service` with this content:
+
+```ini
+[Unit]
+Description=Discord Rich Presence for 42
+
+[Service]
+ExecStart=%h/.local/bin/RP42 -i <my-app-id> -s <my-app-secret>
+Restart=always
+
+[Install]
+WantedBy=default.target
+```
+
+Then run `systemctl --user start RP42` and `systemctl --user status RP42`.
+
 ## Building yourself
 
 If you want to build RP42 yourself, follow these instructions:
