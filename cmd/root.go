@@ -43,7 +43,7 @@ var rootCmd = &cobra.Command{
 
 		err = core.Run(ctx, login, apiClient, apiSecret)
 		if err != nil {
-			fmt.Println("Error while trying to send Rich Presence: %s", err.Error())
+			fmt.Printf("Error while trying to send Rich Presence: %s\n", err.Error())
 			os.Exit(1)
 		}
 
