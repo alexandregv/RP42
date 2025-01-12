@@ -43,9 +43,6 @@ windows:
 macos:
 	@$(ECHO) "MacOS\t[$(C_PENDING)⏳ $(C_RESET)]"
 	@env GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -o build/macOS/$(NAME) -ldflags "$(LDFLAGS)" cmd/$(NAME)/main.go
-	@cp -R assets/macOS/ build/macOS/
-	@cp build/macOS/$(NAME) build/macOS/$(NAME).app/Contents/MacOS/RP42
-	@rm build/macOS/$(NAME).app/Contents/MacOS/.gitkeep
 	@$(ERASE)
 	@$(ECHO) "MacOS\t[$(C_SUCCESS)✅ $(C_RESET)]"
 

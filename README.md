@@ -16,7 +16,7 @@ Run the app like this, using the credentials of your API App:
 
 - Linux: `./RP42 -i CLIENT_ID -s CLIENT_SECRET &`
 - Windows: `RP42.exe -i CLIENT_ID -s CLIENT_SECRET`
-- MacOS: `open RP42.app -i CLIENT_ID -s CLIENT_SECRET`
+- MacOS: `./RP42 -i CLIENT_ID -s CLIENT_SECRET`
 
 On Linux, to run it in background as a service, create a file `~/.config/systemd/user/RP42.service` with this content:
 
