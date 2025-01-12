@@ -45,14 +45,18 @@ func SendActivity(body *presenceBody) (err error) {
 
 // BuildPresenceBody takes API values and prepare the Rich Presence body, then calls [sendActivity].
 func BuildPresenceBody(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) (body *presenceBody, err error) {
-	cursusUser, err := user.GetPrimaryCursus()
-	if cursusUser == nil {
-		return nil, err
-	}
+	var right string
 
-	lvl := fmt.Sprintf("%.2f", cursusUser.Level)
-	login := user.Login
-	separator := " in "
+	if user.Staff {
+		right = "Staff"
+	} else {
+		cursusUser, err := user.GetPrimaryCursus()
+		if cursusUser == nil {
+			return nil, err
+		}
+
+		right = fmt.Sprintf("Lvl %.2f", cursusUser.Level)
+	}
 
 	var (
 		start      time.Time
@@ -61,6 +65,9 @@ func BuildPresenceBody(ctx context.Context, user *api.User, location *api.Locati
 		coaName    string
 		coaSlug    string
 	)
+
+	login := user.Login
+	separator := " in "
 
 	if user.Location == "" {
 		loc = "¯\\_(ツ)_/¯"
@@ -87,7 +94,7 @@ func BuildPresenceBody(ctx context.Context, user *api.User, location *api.Locati
 	}
 
 	return &presenceBody{
-		fmt.Sprintf("%s | Lvl %s", login, lvl),
+		fmt.Sprintf("%s | %s", login, right),
 		loc + separator + campusName,
 		"Download: git.io/Je2xQ",
 		coaSlug,

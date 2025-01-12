@@ -22,7 +22,7 @@ type User struct {
 	//		Phone           interface{}   `json:"phone"`
 	//		Displayname     string        `json:"displayname"`
 	//		ImageURL        string        `json:"image_url"`
-	//		Staff           bool          `json:"staff?"`
+	Staff bool `json:"staff?"`
 	//		CorrectionPoint int           `json:"correction_point"`
 	//		PoolMonth       string        `json:"pool_month"`
 	//		PoolYear        string        `json:"pool_year"`
