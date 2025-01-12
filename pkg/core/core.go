@@ -1,25 +1,17 @@
-package main
+package core
 
 import (
 	"context"
-	"flag"
 	"fmt"
-	"os"
-	"os/user"
-	"strings"
-	"sync"
 	"time"
+
+	discord "github.com/hugolgst/rich-go/client"
 
 	"github.com/alexandregv/RP42/pkg/api"
 	"github.com/alexandregv/RP42/pkg/oauth"
-	discord "github.com/hugolgst/rich-go/client"
 )
 
 const DISCORD_APP_ID = "531103976029028367"
-
-func main() {
-	onReady()
-}
 
 func sendActivity(details string, state string, largeText string, smallImage string, smallText string, startTimestamp *time.Time) {
 	err := discord.Login(DISCORD_APP_ID)
@@ -113,38 +105,7 @@ func setPresence(ctx context.Context, user *api.User, location *api.Location, co
 	}
 }
 
-func onReady() {
-	ctx := context.Background()
-
-	osUser, err := user.Current()
-	if err != nil {
-		panic(err)
-	}
-	login := strings.ToLower(osUser.Username)
-
-	var apiClient string
-	var apiSecret string
-	flag.StringVar(&apiClient, "i", "", "Client ID from API settings")
-	flag.StringVar(&apiClient, "id", "", "Client ID from API settings")
-	flag.StringVar(&apiSecret, "s", "", "Client Secret from API settings")
-	flag.StringVar(&apiSecret, "secret", "", "Client Secret from API settings")
-	flag.Usage = func() {
-		fmt.Print(`Usage of RP42:
-	-i, --id Client ID of your API app (required)
-	-s, --secret Client Secret of your API app (required)
-	
-If you don't have an API app yet, create one here: https://profile.intra.42.fr/oauth/applications/new
-/!\ Do NOT share your credentials to someone else, or on GitHub, etc. /!\
-
-`)
-	}
-	flag.Parse()
-
-	if apiClient == "" || apiSecret == "" {
-		fmt.Println("Please provide Intra API credentials with --id and --secret. See --help for help.")
-		os.Exit(2)
-	}
-
+func Run(ctx context.Context, login string, apiClient string, apiSecret string) {
 	ctx = context.WithValue(ctx, "apiClient", oauth.NewClient(apiClient, apiSecret))
 
 	user := api.GetUser(ctx, login)
@@ -158,9 +119,4 @@ If you don't have an API app yet, create one here: https://profile.intra.42.fr/o
 	campus := api.GetCampus(ctx, loc.CampusID)
 
 	setPresence(ctx, user, loc, coa, campus)
-
-	fmt.Println("Sleeping... Press CTRL+C to stop.")
-	m := sync.Mutex{}
-	m.Lock()
-	m.Lock()
 }

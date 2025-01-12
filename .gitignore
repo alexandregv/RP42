@@ -4,5 +4,3 @@
 /vendor/
 /build/
 *.dwarf
-./RP42
-./main
