@@ -13,7 +13,7 @@ import (
 
 const DISCORD_APP_ID = "531103976029028367"
 
-type presenceBody struct {
+type PresenceBody struct {
 	Details        string
 	State          string
 	LargeText      string
@@ -23,7 +23,7 @@ type presenceBody struct {
 }
 
 // SendActivity is the "low-level" function, which only sets the Rich Presence, with the given values.
-func SendActivity(body *presenceBody) (err error) {
+func SendActivity(body *PresenceBody) (err error) {
 	err = discord.Login(DISCORD_APP_ID)
 	if err != nil {
 		return err
@@ -44,7 +44,7 @@ func SendActivity(body *presenceBody) (err error) {
 }
 
 // BuildPresenceBody takes API values and prepare the Rich Presence body, then calls [sendActivity].
-func BuildPresenceBody(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) (body *presenceBody, err error) {
+func BuildPresenceBody(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) (body *PresenceBody, err error) {
 	var right string
 
 	if user.Staff {
@@ -93,7 +93,7 @@ func BuildPresenceBody(ctx context.Context, user *api.User, location *api.Locati
 		start = time.Unix(1, 0)
 	}
 
-	return &presenceBody{
+	return &PresenceBody{
 		fmt.Sprintf("%s | %s", login, right),
 		loc + separator + campusName,
 		"Download: git.io/Je2xQ",
