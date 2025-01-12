@@ -3,7 +3,7 @@ package api
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 
 	"github.com/alexandregv/RP42/pkg/oauth"
 )
@@ -19,7 +19,7 @@ func fetch(ctx context.Context, endpoint string) []byte {
 		panic(err)
 	}
 
-	body, _ := ioutil.ReadAll(resp.Body)
+	body, _ := io.ReadAll(resp.Body)
 	defer resp.Body.Close()
 
 	if resp.StatusCode == 200 {
