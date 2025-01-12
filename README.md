@@ -22,7 +22,7 @@ The app will appear in your menu/tray bar (near the clock). Right click it to qu
 
 ## Building yourself
 
-If you want to build RP42 yourself, you will have to generate an app on the 42's API and then follow these instructions:
+If you want to build RP42 yourself, follow these instructions:
 
 1. Clone the repo: `git clone https://github.com/alexandregv/RP42.git`
 2. Compile: `make` for all distro, or `make linux` / `make macos` / `make windows`
