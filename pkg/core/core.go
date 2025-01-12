@@ -22,8 +22,8 @@ type presenceBody struct {
 	StartTimestamp *time.Time
 }
 
-// sendActivity is the "low-level" function, which only sets the Rich Presence, with the given values.
-func sendActivity(body *presenceBody) (err error) {
+// SendActivity is the "low-level" function, which only sets the Rich Presence, with the given values.
+func SendActivity(body *presenceBody) (err error) {
 	err = discord.Login(DISCORD_APP_ID)
 	if err != nil {
 		return err
@@ -43,8 +43,8 @@ func sendActivity(body *presenceBody) (err error) {
 	return err
 }
 
-// buildPresenceBody takes API values and prepare the Rich Presence body, then calls [sendActivity].
-func buildPresenceBody(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) (body *presenceBody, err error) {
+// BuildPresenceBody takes API values and prepare the Rich Presence body, then calls [sendActivity].
+func BuildPresenceBody(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) (body *presenceBody, err error) {
 	cursusUser, err := user.GetPrimaryCursus()
 	if cursusUser == nil {
 		return nil, err
@@ -129,10 +129,10 @@ func Run(ctx context.Context, login string, apiClient string, apiSecret string) 
 		return err
 	}
 
-	body, err := buildPresenceBody(ctx, user, loc, coa, campus)
+	body, err := BuildPresenceBody(ctx, user, loc, coa, campus)
 	if err != nil {
 		return err
 	}
 
-	return sendActivity(body)
+	return SendActivity(body)
 }
