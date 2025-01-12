@@ -36,28 +36,9 @@ func sendActivity(details string, state string, largeText string, smallImage str
 	}
 }
 
-// getActiveCursus determines which cursus is the active one, based on the name (e.g piscine vs 42cursus).
-func getActiveCursus(user *api.User) *api.CursusUser {
-	var active_cursus *api.CursusUser
-	for _, cursus_user := range user.CursusUsers {
-		if cursus_user.Cursus.Slug == "c-piscine" && active_cursus == nil {
-			active_cursus = &cursus_user
-		}
-
-		if cursus_user.Cursus.Slug == "42" && (active_cursus == nil || active_cursus.Cursus.Slug == "c-piscine") {
-			active_cursus = &cursus_user
-		}
-
-		if cursus_user.Cursus.Slug == "42cursus" {
-			active_cursus = &cursus_user
-		}
-	}
-	return active_cursus
-}
-
 // setPresence takes API values and prepare the Rich Presence body, then calls [sendActivity].
 func setPresence(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) {
-	cursus_user := getActiveCursus(user)
+	cursus_user := user.GetActiveCursus()
 
 	if cursus_user != nil {
 		lvl := fmt.Sprintf("%.2f", cursus_user.Level)
@@ -117,13 +98,13 @@ func Run(ctx context.Context, login string, apiClient string, apiSecret string) 
 		return err
 	}
 
-	loc, err := api.GetUserFirstLocation(ctx, user)
+	loc, err := user.GetUserFirstLocation(ctx)
 	if err != nil {
 		return err
 	}
 	if loc == nil {
 		time.Sleep(1 * time.Second)
-		loc, err = api.GetUserLastLocation(ctx, user)
+		loc, err = user.GetUserLastLocation(ctx)
 		if err != nil {
 			return err
 		}
@@ -131,7 +112,7 @@ func Run(ctx context.Context, login string, apiClient string, apiSecret string) 
 
 	time.Sleep(1 * time.Second)
 
-	coa, err := api.GetUserCoalition(ctx, user)
+	coa, err := user.GetUserCoalition(ctx)
 	if err != nil {
 		return err
 	}

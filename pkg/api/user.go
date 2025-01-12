@@ -110,3 +110,22 @@ func GetUser(ctx context.Context, login string) (user *User, err error) {
 
 	return user, nil
 }
+
+// GetActiveCursus determines which cursus is the active one, based on the name (e.g piscine vs 42cursus).
+func (user *User) GetActiveCursus() *CursusUser {
+	var active_cursus *CursusUser
+	for _, cursus_user := range user.CursusUsers {
+		if cursus_user.Cursus.Slug == "c-piscine" && active_cursus == nil {
+			active_cursus = &cursus_user
+		}
+
+		if cursus_user.Cursus.Slug == "42" && (active_cursus == nil || active_cursus.Cursus.Slug == "c-piscine") {
+			active_cursus = &cursus_user
+		}
+
+		if cursus_user.Cursus.Slug == "42cursus" {
+			active_cursus = &cursus_user
+		}
+	}
+	return active_cursus
+}

@@ -28,7 +28,7 @@ type CoalitionUser struct {
 }
 
 // GetUserCoalition returns the [Coalition] of a user.
-func GetUserCoalition(ctx context.Context, user *User) (coa *Coalition, err error) {
+func (user *User) GetUserCoalition(ctx context.Context) (coa *Coalition, err error) {
 	resp, err := fetch(ctx, fmt.Sprint("/v2/coalitions_users/", "?user_id=", fmt.Sprint(user.ID), "&sort=-created_at"))
 	if err != nil {
 		return nil, err
