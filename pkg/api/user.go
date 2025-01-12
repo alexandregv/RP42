@@ -1,6 +1,12 @@
 package api
 
-//import "time"
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+)
+
+// import "time"
 
 // User represents an user from the 42's API.
 // Truncated to keep only useful entries.
@@ -90,4 +96,14 @@ type CursusUser struct {
 		//				Name      string    `json:"name"`
 		Slug string `json:"slug"`
 	} `json:"cursus"`
+}
+
+// GetUser() returns an User, based on his login.
+func GetUser(ctx context.Context, login string) *User {
+	resp := fetch(ctx, fmt.Sprint("/v2/users/", login))
+
+	user := User{}
+	json.Unmarshal(resp, &user)
+
+	return &user
 }
