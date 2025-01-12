@@ -1,0 +1,57 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
+      - id: check-vcs-permalinks
+        args: ["--additional-github-domain"]
+      - id: check-yaml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+        exclude: '^.*\.svg$'
+      - id: fix-byte-order-marker
+      - id: forbid-submodules
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      - id: trailing-whitespace
+        args: ["--markdown-linebreak-ext=md"]
+
+  - repo: https://github.com/mrtazz/checkmake.git
+    rev: 0.2.2
+    hooks:
+      - id: checkmake
+
+  - repo: https://github.com/sirwart/ripsecrets
+    rev: 4bdd9b0 # This commit adds intra42 secret matcher, not tagged yet
+    hooks:
+      - id: ripsecrets
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.2
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/frnmst/md-toc
+    rev: 9.0.0
+    hooks:
+      - id: md-toc
+        args: ["-c", "-p", "--skip-lines=1", "gitlab", "README.md"]
+
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.19.1
+    hooks:
+      - id: gitlint

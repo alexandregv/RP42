@@ -1,0 +1,8 @@
+# Gitlint Rules list: https://jorisroovers.com/gitlint/latest/rules/builtin_rules/
+
+[general]
+ignore = B6,body-is-missing, T5,title-must-not-contain-word
+# We allow commits without body (title is enough) and we allow commits with the word "WIP" in the title
+
+contrib = CT1,contrib-title-conventional-commits
+# We require conventional commits. See https://www.conventionalcommits.org/en/v1.0.0/#summary
