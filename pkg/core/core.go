@@ -13,35 +13,44 @@ import (
 
 const DISCORD_APP_ID = "531103976029028367"
 
+type presenceBody struct {
+	Details        string
+	State          string
+	LargeText      string
+	SmallImage     string
+	SmallText      string
+	StartTimestamp *time.Time
+}
+
 // sendActivity is the "low-level" function, which only sets the Rich Presence, with the given values.
-func sendActivity(details string, state string, largeText string, smallImage string, smallText string, startTimestamp *time.Time) (err error) {
+func sendActivity(body *presenceBody) (err error) {
 	err = discord.Login(DISCORD_APP_ID)
 	if err != nil {
 		return err
 	}
 
 	err = discord.SetActivity(discord.Activity{
-		Details:    details,
-		State:      state,
+		Details:    body.Details,
+		State:      body.State,
 		LargeImage: "logo",
-		LargeText:  largeText,
-		SmallImage: smallImage,
-		SmallText:  smallText,
+		LargeText:  body.LargeText,
+		SmallImage: body.SmallImage,
+		SmallText:  body.SmallText,
 		Timestamps: &discord.Timestamps{
-			Start: startTimestamp,
+			Start: body.StartTimestamp,
 		},
 	})
 	return err
 }
 
-// setPresence takes API values and prepare the Rich Presence body, then calls [sendActivity].
-func setPresence(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) {
-	cursus_user := user.GetPrimaryCursus()
-	if cursus_user == nil {
-		return
+// buildPresenceBody takes API values and prepare the Rich Presence body, then calls [sendActivity].
+func buildPresenceBody(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) (body *presenceBody, err error) {
+	cursusUser, err := user.GetPrimaryCursus()
+	if cursusUser == nil {
+		return nil, err
 	}
 
-	lvl := fmt.Sprintf("%.2f", cursus_user.Level)
+	lvl := fmt.Sprintf("%.2f", cursusUser.Level)
 	login := user.Login
 	separator := " in "
 
@@ -77,15 +86,14 @@ func setPresence(ctx context.Context, user *api.User, location *api.Location, co
 		start = time.Unix(1, 0)
 	}
 
-	sendActivity(
+	return &presenceBody{
 		fmt.Sprintf("%s | Lvl %s", login, lvl),
-		loc+separator+campusName,
+		loc + separator + campusName,
 		"Download: git.io/Je2xQ",
 		coaSlug,
 		coaName,
 		&start,
-	)
-	return
+	}, nil
 }
 
 // Run runs the core action of the program, calling the API to retrive info and then setting Discord Rich Presence.
@@ -121,6 +129,10 @@ func Run(ctx context.Context, login string, apiClient string, apiSecret string) 
 		return err
 	}
 
-	setPresence(ctx, user, loc, coa, campus)
-	return nil
+	body, err := buildPresenceBody(ctx, user, loc, coa, campus)
+	if err != nil {
+		return err
+	}
+
+	return sendActivity(body)
 }

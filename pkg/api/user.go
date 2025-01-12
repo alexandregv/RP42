@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -115,36 +116,36 @@ func GetUser(ctx context.Context, login string) (user *User, err error) {
 }
 
 // GetPrimaryCursus determines which cursus is the primary one, based on the name (e.g 42cursus > c-piscine).
-func (user *User) GetPrimaryCursus() (primaryCursus *CursusUser) {
+func (user *User) GetPrimaryCursus() (primaryCursus *CursusUser, err error) {
 	if primaryCursus, ok := lo.Find(user.CursusUsers, func(cu CursusUser) bool {
 		return cu.Cursus.Slug == "42cursus"
 	}); ok {
-		return &primaryCursus
+		return &primaryCursus, nil
 	}
 
 	if primaryCursus, ok := lo.Find(user.CursusUsers, func(cu CursusUser) bool {
 		return cu.Cursus.Slug == "42senior" || cu.Cursus.Slug == "42.zip" || cu.Cursus.Slug == "formation-pole-emploi"
 	}); ok {
-		return &primaryCursus
+		return &primaryCursus, nil
 	}
 
 	if primaryCursus, ok := lo.Find(user.CursusUsers, func(cu CursusUser) bool {
 		return cu.Cursus.Slug == "42"
 	}); ok {
-		return &primaryCursus
+		return &primaryCursus, nil
 	}
 
 	if primaryCursus, ok := lo.Find(user.CursusUsers, func(cu CursusUser) bool {
 		return strings.Contains(cu.Cursus.Slug, "discovery")
 	}); ok {
-		return &primaryCursus
+		return &primaryCursus, nil
 	}
 
 	if primaryCursus, ok := lo.Find(user.CursusUsers, func(cu CursusUser) bool {
 		return strings.Contains(cu.Cursus.Slug, "piscine")
 	}); ok {
-		return &primaryCursus
+		return &primaryCursus, nil
 	}
 
-	return nil
+	return nil, errors.New("Could not identify primary cursus")
 }
