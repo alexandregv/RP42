@@ -95,7 +95,7 @@ func setPresence(ctx context.Context, user *api.User, location *api.Location, co
 
 		sendActivity(
 			fmt.Sprintf("%s | Lvl %s", login, lvl),
-			fmt.Sprint(loc, separator, campusName),
+			loc+separator+campusName,
 			"Download: git.io/Je2xQ",
 			coaSlug,
 			coaName,
