@@ -13,6 +13,7 @@ import (
 
 const DISCORD_APP_ID = "531103976029028367"
 
+// sendActivity is the "low-level" function, which only sets the Rich Presence, with the given values.
 func sendActivity(details string, state string, largeText string, smallImage string, smallText string, startTimestamp *time.Time) {
 	err := discord.Login(DISCORD_APP_ID)
 	if err != nil {
@@ -35,6 +36,7 @@ func sendActivity(details string, state string, largeText string, smallImage str
 	}
 }
 
+// getActiveCursus determines which cursus is the active one, based on the name (e.g piscine vs 42cursus).
 func getActiveCursus(user *api.User) *api.CursusUser {
 	var active_cursus *api.CursusUser
 	for _, cursus_user := range user.CursusUsers {
@@ -53,6 +55,7 @@ func getActiveCursus(user *api.User) *api.CursusUser {
 	return active_cursus
 }
 
+// setPresence takes API values and prepare the Rich Presence body, then calls [sendActivity].
 func setPresence(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) {
 	cursus_user := getActiveCursus(user)
 
@@ -105,6 +108,7 @@ func setPresence(ctx context.Context, user *api.User, location *api.Location, co
 	}
 }
 
+// Run runs the core action of the program, calling the API to retrive info and then setting Discord Rich Presence.
 func Run(ctx context.Context, login string, apiClient string, apiSecret string) (err error) {
 	ctx = context.WithValue(ctx, "apiClient", oauth.NewClient(apiClient, apiSecret))
 

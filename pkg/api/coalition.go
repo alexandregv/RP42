@@ -18,7 +18,7 @@ type Coalition struct {
 	//		UserID   int    `json:"user_id"`
 }
 
-// CoalitionUser represents an user in coalition from the 42's API.
+// CoalitionUser represents a user in coalition from the 42's API.
 type CoalitionUser struct {
 	ID          int `json:"id"`
 	CoalitionID int `json:"coalition_id"`
@@ -27,7 +27,7 @@ type CoalitionUser struct {
 	// UpdatedAt   time.Time `json:"updated_at"`
 }
 
-// GetUserCoalition() returns the Coalition of an user.
+// GetUserCoalition returns the [Coalition] of a user.
 func GetUserCoalition(ctx context.Context, user *User) (coa *Coalition, err error) {
 	resp, err := fetch(ctx, fmt.Sprint("/v2/coalitions_users/", "?user_id=", fmt.Sprint(user.ID), "&sort=-created_at"))
 	if err != nil {

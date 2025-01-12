@@ -22,7 +22,7 @@ type Location struct {
 	//	User     User        `json:"user"`
 }
 
-// GetUserFirstLocation returns the first Location of an user (in a day).
+// GetUserFirstLocation returns the first [Location] of a user, in a day.
 func GetUserFirstLocation(ctx context.Context, user *User) (loc *Location, err error) {
 	now := time.Now().UTC()
 	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC).Format("2006-01-02T15:04:05.000Z")
@@ -44,7 +44,7 @@ func GetUserFirstLocation(ctx context.Context, user *User) (loc *Location, err e
 	}
 }
 
-// GetUserLastLocation returns the last Location of an user.
+// GetUserLastLocation returns the last [Location] of a user.
 func GetUserLastLocation(ctx context.Context, user *User) (loc *Location, err error) {
 	resp, err := fetch(ctx, fmt.Sprint("/v2/users/", user.Login, "/locations?filter[active]=true"))
 	if err != nil {
