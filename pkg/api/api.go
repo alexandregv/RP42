@@ -15,7 +15,7 @@ const URL = "https://api.intra.42.fr"
 func fetch(ctx context.Context, endpoint string) (body []byte, err error) {
 	client := ctx.Value("apiClient").(*oauth.Client)
 
-	resp, err := client.Get(fmt.Sprint(URL, endpoint))
+	resp, err := client.Get(URL + endpoint)
 	if err != nil {
 		panic(err)
 	}
