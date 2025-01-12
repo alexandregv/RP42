@@ -4,6 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
+
+	"github.com/samber/lo"
 )
 
 // User represents a user from the 42's API.
@@ -111,21 +114,37 @@ func GetUser(ctx context.Context, login string) (user *User, err error) {
 	return user, nil
 }
 
-// GetPrimaryCursus determines which cursus is the primary one, based on the name (e.g piscine vs 42cursus).
-func (user *User) GetPrimaryCursus() *CursusUser {
-	var active_cursus *CursusUser
-	for _, cursus_user := range user.CursusUsers {
-		if cursus_user.Cursus.Slug == "c-piscine" && active_cursus == nil {
-			active_cursus = &cursus_user
-		}
-
-		if cursus_user.Cursus.Slug == "42" && (active_cursus == nil || active_cursus.Cursus.Slug == "c-piscine") {
-			active_cursus = &cursus_user
-		}
-
-		if cursus_user.Cursus.Slug == "42cursus" {
-			active_cursus = &cursus_user
-		}
+// GetPrimaryCursus determines which cursus is the primary one, based on the name (e.g 42cursus > c-piscine).
+func (user *User) GetPrimaryCursus() (primaryCursus *CursusUser) {
+	if primaryCursus, ok := lo.Find(user.CursusUsers, func(cu CursusUser) bool {
+		return cu.Cursus.Slug == "42cursus"
+	}); ok {
+		return &primaryCursus
 	}
-	return active_cursus
+
+	if primaryCursus, ok := lo.Find(user.CursusUsers, func(cu CursusUser) bool {
+		return cu.Cursus.Slug == "42senior" || cu.Cursus.Slug == "42.zip" || cu.Cursus.Slug == "formation-pole-emploi"
+	}); ok {
+		return &primaryCursus
+	}
+
+	if primaryCursus, ok := lo.Find(user.CursusUsers, func(cu CursusUser) bool {
+		return cu.Cursus.Slug == "42"
+	}); ok {
+		return &primaryCursus
+	}
+
+	if primaryCursus, ok := lo.Find(user.CursusUsers, func(cu CursusUser) bool {
+		return strings.Contains(cu.Cursus.Slug, "discovery")
+	}); ok {
+		return &primaryCursus
+	}
+
+	if primaryCursus, ok := lo.Find(user.CursusUsers, func(cu CursusUser) bool {
+		return strings.Contains(cu.Cursus.Slug, "piscine")
+	}); ok {
+		return &primaryCursus
+	}
+
+	return nil
 }
