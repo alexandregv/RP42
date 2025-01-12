@@ -38,7 +38,7 @@ func sendActivity(details string, state string, largeText string, smallImage str
 
 // setPresence takes API values and prepare the Rich Presence body, then calls [sendActivity].
 func setPresence(ctx context.Context, user *api.User, location *api.Location, coalition *api.Coalition, campus *api.Campus) {
-	cursus_user := user.GetActiveCursus()
+	cursus_user := user.GetPrimaryCursus()
 
 	if cursus_user != nil {
 		lvl := fmt.Sprintf("%.2f", cursus_user.Level)
