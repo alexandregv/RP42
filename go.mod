@@ -1,14 +1,13 @@
 module github.com/alexandregv/RP42
 
 go 1.22.1
-
-toolchain go1.24rc1
+toolchain go1.24.1
 
 require (
 	github.com/hugolgst/rich-go v0.0.0-20240715122152-74618cc1ace2
 	github.com/samber/lo v1.47.0
 	github.com/spf13/cobra v1.8.1
-	golang.org/x/net v0.34.0
+	golang.org/x/net v0.38.0
 	golang.org/x/oauth2 v0.25.0
 )
 
@@ -215,10 +214,10 @@ require (
 	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0 // indirect
 	golang.org/x/exp/typeparams v0.0.0-20241108190413-2d47ceb2692f // indirect
 	golang.org/x/mod v0.22.0 // indirect
-	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/sys v0.29.0 // indirect
-	golang.org/x/term v0.28.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/sync v0.12.0 // indirect
+	golang.org/x/sys v0.31.0 // indirect
+	golang.org/x/term v0.30.0 // indirect
+	golang.org/x/text v0.23.0 // indirect
 	golang.org/x/tools v0.28.0 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
